@@ -51,3 +51,7 @@ Added the `epitech-c-cpp-headers.setConfig` command to reconfigure headers
 Fixed regex escape issues  
 Fixed possible line mismatch on date updates  
 Fixed date update on Makefiles
+
+### 1.3.1
+
+Format fix in README.md

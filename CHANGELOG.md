@@ -17,3 +17,6 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 - Fixed regex escape issues
 - Fixed possible line mismatch on date updates
 - Fixed date update on Makefiles
+
+## 1.3.1
+- Format fix in README.md

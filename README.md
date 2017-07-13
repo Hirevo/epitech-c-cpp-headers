@@ -11,7 +11,7 @@ You can create a header for a new file by:
 
 Each time you save a C or C++ file with a header, it will update it automatically.
 
-You can configure the headers in a very simple manner by executing the `epitech-c-cpp-headers.setConfig` command.
+You can configure the headers in a very simple manner by executing the `epitech-c-cpp-headers.setConfig` command.  
 By default, it will execute it on launch when a configuration field is left unknown.
 
 ## Requirements

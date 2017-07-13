@@ -2,8 +2,12 @@
     "name": "epitech-c-cpp-headers",
     "displayName": "EPITECH C/C++ Headers",
     "description": "An EPITECH header handler for C/C++ projects",
-    "version": "0.0.1",
-    "publisher": "Hirevo",
+    "version": "1.0.0",
+    "publisher": "nicolaspolomack",
+    "author": {
+        "name": "Nicolas Polomack",
+        "email": "nipolom@live.fr"
+    },
     "engines": {
         "vscode": "^1.13.0"
     },

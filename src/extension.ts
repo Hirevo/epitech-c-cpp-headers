@@ -17,9 +17,17 @@ export function activate(context: vscode.ExtensionContext) {
         headerFor = " for ",
         headerIn = " in ",
         domaineName = "",
-        commentStart = "/*",
-        commentMid = "**",
-        commentEnd = "*/"
+        commentStart = { c: "/*", cpp: "//", Makefile: "##" },
+        commentMid = { c: "**", cpp: "//", Makefile: "##" },
+        commentEnd = { c: "*/", cpp: "//", Makefile: "##" }
+
+    let supported = {
+        "c": "c",
+        "h": "c",
+        "cpp": "cpp",
+        "hpp": "cpp",
+        "Makefile": "Makefile"
+    }
 
     const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     const Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -29,8 +37,10 @@ export function activate(context: vscode.ExtensionContext) {
         let date = new Date()
 
         let fileName = vscode.window.activeTextEditor.document.fileName
-        if (!fileName.endsWith(".c") && !fileName.endsWith(".cpp") && !fileName.endsWith(".h") && !fileName.endsWith(".hpp")) {
-            vscode.window.showErrorMessage("The currently opened file isn't a C/C++ file.")
+        let langId = path.basename(fileName).split(".").reverse()[0];
+
+        if (Object.keys(supported).indexOf(langId) == -1) {
+            vscode.window.showErrorMessage("The currently opened file isn't a supported file.")
             return
         }
 
@@ -44,15 +54,15 @@ export function activate(context: vscode.ExtensionContext) {
 
         let header = ""
 
-        header = header.concat(commentStart, os.EOL)
-        header = header.concat(commentMid, " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), os.EOL)
-        header = header.concat(commentMid, os.EOL)
-        header = header.concat(commentMid, " ", headerMadeBy, username, os.EOL)
-        header = header.concat(commentMid, " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, os.EOL)
-        header = header.concat(commentMid, os.EOL)
-        header = header.concat(commentMid, " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
-        header = header.concat(commentMid, " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
-        header = header.concat(commentEnd, os.EOL, os.EOL)
+        header = header.concat(commentStart[langId], os.EOL)
+        header = header.concat(commentMid[langId], " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), os.EOL)
+        header = header.concat(commentMid[langId], os.EOL)
+        header = header.concat(commentMid[langId], " ", headerMadeBy, username, os.EOL)
+        header = header.concat(commentMid[langId], " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, os.EOL)
+        header = header.concat(commentMid[langId], os.EOL)
+        header = header.concat(commentMid[langId], " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
+        header = header.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
+        header = header.concat(commentEnd[langId], os.EOL, os.EOL)
 
         let text = (await fs.readFile(fileName)).toString()
         text = header + text

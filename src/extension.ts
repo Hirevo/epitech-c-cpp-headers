@@ -5,7 +5,29 @@ import * as fs from 'fs-extra';
 import * as os from 'os'
 import * as path from 'path'
 
+async function configureSettings(config: vscode.WorkspaceConfiguration) {
+    if (config.username === null) {
+        var resp = await vscode.window.showInputBox({ prompt: "Type EPITECH username: " })
+        if (resp !== undefined)
+            config.update("username", resp, true)
+    }
+    if (config.login === null) {
+        var resp = await vscode.window.showInputBox({ prompt: "Type EPITECH login: " })
+        if (resp !== undefined)
+            config.update("login", resp, true)
+    }
+    vscode.window.showInformationMessage("EPITECH Headers have been successfully configured !")
+}
+
 export function activate(context: vscode.ExtensionContext) {
+
+    let extConfig = vscode.workspace.getConfiguration("epitech-c-cpp-headers")
+
+    if (extConfig.prompt === true && (extConfig.username === null || extConfig.login === null))
+        vscode.window.showInformationMessage("Do you want to quickly set up EPITECH headers ?", "Yes", "No").then((resp) => {
+            if (resp === "Yes")
+                configureSettings(extConfig)
+        })
 
     let headerMadeBy = "Made by ",
         headerLogin = "Login   ",

@@ -52,6 +52,10 @@
                     ],
                     "default": null,
                     "description": "Specifies the login to use for the header."
+                },"epitech-c-cpp-headers.prompt": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Specifies if the extension prompts for unknown settings."
                 }
             }
         }

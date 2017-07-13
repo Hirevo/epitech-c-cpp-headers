@@ -22,7 +22,11 @@
         "commands": [
             {
                 "command": "epitech-c-cpp-headers.addHeader",
-                "title": "Add EPITECH Header"
+                "title": "EPITECH C/C++ Headers: Add EPITECH Header"
+            },
+            {
+                "command": "epitech-c-cpp-headers.setConfig",
+                "title": "EPITECH C/C++ Headers: Configure headers"
             }
         ],
         "keybindings": [
@@ -76,6 +80,7 @@
         "vscode": "^1.0.0"
     },
     "dependencies": {
+        "escape-string-regexp": "^1.0.5",
         "fs-extra": "^3.0.1"
     }
 }

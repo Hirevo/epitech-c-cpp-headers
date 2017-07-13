@@ -11,3 +11,9 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 
 ## 1.2.0
 - Added prompt to improve UX while configuring
+
+## 1.3.0
+- Added the `epitech-c-cpp-headers.setConfig` command to reconfigure headers
+- Fixed regex escape issues
+- Fixed possible line mismatch on date updates
+- Fixed date update on Makefiles

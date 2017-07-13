@@ -2,16 +2,17 @@
 
 import * as vscode from 'vscode';
 import * as fs from 'fs-extra';
-import * as os from 'os'
-import * as path from 'path'
+import * as os from 'os';
+import * as path from 'path';
+import * as escapeRegExpString from "escape-string-regexp"
 
-async function configureSettings(config: vscode.WorkspaceConfiguration) {
-    if (config.username === null) {
+async function configureSettings(config: vscode.WorkspaceConfiguration, force = false) {
+    if (config.username === null || force) {
         var resp = await vscode.window.showInputBox({ prompt: "Type EPITECH username: " })
         if (resp !== undefined)
             config.update("username", resp, true)
     }
-    if (config.login === null) {
+    if (config.login === null || force) {
         var resp = await vscode.window.showInputBox({ prompt: "Type EPITECH login: " })
         if (resp !== undefined)
             config.update("login", resp, true)
@@ -54,58 +55,66 @@ export function activate(context: vscode.ExtensionContext) {
     const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
     const Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-    let disposable = vscode.commands.registerCommand('epitech-c-cpp-headers.addHeader', async () => {
+    let disposables = [
+        vscode.commands.registerCommand('epitech-c-cpp-headers.addHeader', async () => {
 
-        let date = new Date()
+            let date = new Date()
 
-        let fileName = vscode.window.activeTextEditor.document.fileName
-        let langId = path.basename(fileName).split(".").reverse()[0];
+            let fileName = vscode.window.activeTextEditor.document.fileName
+            let langId = path.basename(fileName).split(".").reverse()[0];
 
-        if (Object.keys(supported).indexOf(langId) == -1) {
-            vscode.window.showErrorMessage("The currently opened file isn't a supported file.")
-            return
-        }
+            if (Object.keys(supported).indexOf(langId) == -1) {
+                vscode.window.showErrorMessage("The currently opened file isn't a supported file.")
+                return
+            }
 
-        let projName: string | undefined = await vscode.window.showInputBox({ prompt: "Type project name: " })
-        if (projName === undefined)
-            return
+            langId = supported[langId]
 
-        let config = vscode.workspace.getConfiguration("epitech-c-cpp-headers")
-        let username: string = (config.username === null) ? os.userInfo().username : config.username
-        let login: string = (config.login === null) ? "" : config.login
+            let projName: string | undefined = await vscode.window.showInputBox({ prompt: "Type project name: " })
+            if (projName === undefined)
+                return
 
-        let header = ""
+            let config = vscode.workspace.getConfiguration("epitech-c-cpp-headers")
+            let username: string = (config.username === null) ? os.userInfo().username : config.username
+            let login: string = (config.login === null) ? "" : config.login
 
-        header = header.concat(commentStart[langId], os.EOL)
-        header = header.concat(commentMid[langId], " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), os.EOL)
-        header = header.concat(commentMid[langId], os.EOL)
-        header = header.concat(commentMid[langId], " ", headerMadeBy, username, os.EOL)
-        header = header.concat(commentMid[langId], " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, os.EOL)
-        header = header.concat(commentMid[langId], os.EOL)
-        header = header.concat(commentMid[langId], " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
-        header = header.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
-        header = header.concat(commentEnd[langId], os.EOL, os.EOL)
+            let header = ""
 
-        let text = (await fs.readFile(fileName)).toString()
-        text = header + text
+            header = header.concat(commentStart[langId], os.EOL)
+            header = header.concat(commentMid[langId], " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), os.EOL)
+            header = header.concat(commentMid[langId], os.EOL)
+            header = header.concat(commentMid[langId], " ", headerMadeBy, username, os.EOL)
+            header = header.concat(commentMid[langId], " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, os.EOL)
+            header = header.concat(commentMid[langId], os.EOL)
+            header = header.concat(commentMid[langId], " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
+            header = header.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
+            header = header.concat(commentEnd[langId], os.EOL, os.EOL)
 
-        fs.writeFile(fileName, text)
-    })
+            let text = (await fs.readFile(fileName)).toString()
+            text = header + text
 
-    context.subscriptions.push(disposable)
+            fs.writeFile(fileName, text)
+        }),
+        vscode.commands.registerCommand('epitech-c-cpp-headers.setConfig', () => {
+            configureSettings(vscode.workspace.getConfiguration("epitech-c-cpp-headers"), true)
+        })
+    ]
+
+    context.subscriptions.push(...disposables)
 
     vscode.workspace.onDidSaveTextDocument(async (ev) => {
-        let fileName = vscode.window.activeTextEditor.document.fileName
-        let langId = path.basename(fileName).split(".").reverse()[0];
+        let langId = path.basename(ev.fileName).split(".").reverse()[0];
 
         if (Object.keys(supported).indexOf(langId) == -1)
             return
+
+        langId = supported[langId]
 
         let date = new Date()
         let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username
         username = (username === null) ? os.userInfo().username : username
         let text = (await fs.readFile(ev.fileName)).toString()
-        text = text.replace(new RegExp(`(${commentMid[langId]} ${headerLast})(.*)(${os.EOL})`), commentMid[langId].concat(" ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL))
+        text = text.replace(new RegExp(`(${escapeRegExpString(commentMid[langId])} ${escapeRegExpString(headerLast)})(.*)(${os.EOL})`), commentMid[langId].concat(" ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL))
         fs.writeFile(ev.fileName, text)
     })
 }

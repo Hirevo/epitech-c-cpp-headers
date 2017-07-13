@@ -2,7 +2,7 @@
     "name": "epitech-c-cpp-headers",
     "displayName": "EPITECH C/C++ Headers",
     "description": "An EPITECH header handler for C/C++ projects",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "publisher": "nicolaspolomack",
     "author": {
         "name": "Nicolas Polomack",
@@ -52,7 +52,8 @@
                     ],
                     "default": null,
                     "description": "Specifies the login to use for the header."
-                },"epitech-c-cpp-headers.prompt": {
+                },
+                "epitech-c-cpp-headers.prompt": {
                     "type": "boolean",
                     "default": true,
                     "description": "Specifies if the extension prompts for unknown settings."

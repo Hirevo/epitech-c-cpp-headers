@@ -95,14 +95,18 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(disposable)
 
     vscode.workspace.onDidSaveTextDocument(async (ev) => {
-        if (ev.fileName.endsWith(".c") || ev.fileName.endsWith(".cpp") || ev.fileName.endsWith(".h") || ev.fileName.endsWith(".hpp")) {
-            let date = new Date()
-            let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username
-            username = (username === null) ? os.userInfo().username : username
-            let text = (await fs.readFile(ev.fileName)).toString()
-            text = text.replace(new RegExp(`(${headerLast})(.*)(${os.EOL})`), headerLast.concat(Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL))
-            fs.writeFile(ev.fileName, text)
-        }
+        let fileName = vscode.window.activeTextEditor.document.fileName
+        let langId = path.basename(fileName).split(".").reverse()[0];
+
+        if (Object.keys(supported).indexOf(langId) == -1)
+            return
+
+        let date = new Date()
+        let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username
+        username = (username === null) ? os.userInfo().username : username
+        let text = (await fs.readFile(ev.fileName)).toString()
+        text = text.replace(new RegExp(`(${commentMid[langId]} ${headerLast})(.*)(${os.EOL})`), commentMid[langId].concat(" ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL))
+        fs.writeFile(ev.fileName, text)
     })
 }
 

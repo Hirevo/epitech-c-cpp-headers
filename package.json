@@ -2,7 +2,7 @@
     "name": "epitech-c-cpp-headers",
     "displayName": "EPITECH C/C++ Headers",
     "description": "An EPITECH header handler for C/C++ projects",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "publisher": "nicolaspolomack",
     "author": {
         "name": "Nicolas Polomack",
@@ -25,12 +25,14 @@
                 "title": "Add EPITECH Header"
             }
         ],
-        "keybindings": [{
-            "command": "epitech-c-cpp-headers.addHeader",
-            "key": "ctrl+shift+h",
-            "mac": "cmd+shift+h",
-            "when": "editorTextFocus"
-        }],
+        "keybindings": [
+            {
+                "command": "epitech-c-cpp-headers.addHeader",
+                "key": "ctrl+shift+h",
+                "mac": "cmd+shift+h",
+                "when": "editorTextFocus"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "EPITECH C/C++ Headers Configuration",

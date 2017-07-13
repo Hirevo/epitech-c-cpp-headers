@@ -1,0 +1,70 @@
+{
+    "name": "epitech-c-cpp-headers",
+    "displayName": "EPITECH C/C++ Headers",
+    "description": "An EPITECH header handler for C/C++ projects",
+    "version": "0.0.1",
+    "publisher": "Hirevo",
+    "engines": {
+        "vscode": "^1.13.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [
+        "*"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "epitech-c-cpp-headers.addHeader",
+                "title": "Add EPITECH Header"
+            }
+        ],
+        "keybindings": [{
+            "command": "epitech-c-cpp-headers.addHeader",
+            "key": "ctrl+shift+h",
+            "mac": "cmd+shift+h",
+            "when": "editorTextFocus"
+        }],
+        "configuration": {
+            "type": "object",
+            "title": "EPITECH C/C++ Headers Configuration",
+            "properties": {
+                "epitech-c-cpp-headers.username": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "Specifies the username to use for the header."
+                },
+                "epitech-c-cpp-headers.login": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": null,
+                    "description": "Specifies the login to use for the header."
+                }
+            }
+        }
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "compile": "tsc -watch -p ./",
+        "postinstall": "node ./node_modules/vscode/bin/install",
+        "test": "node ./node_modules/vscode/bin/test"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^3.0.3",
+        "@types/mocha": "^2.2.32",
+        "@types/node": "^6.0.40",
+        "mocha": "^2.3.3",
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0"
+    },
+    "dependencies": {
+        "fs-extra": "^3.0.1"
+    }
+}

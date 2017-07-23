@@ -1,5 +1,8 @@
 # EPITECH C/C++ Headers
 
+[![forthebadge](http://forthebadge.com/images/badges/built-by-developers.svg)](http://forthebadge.com)
+[![forthebadge](http://forthebadge.com/images/badges/powered-by-electricity.svg)](http://forthebadge.com)
+
 This is a handler for EPITECH headers in C/C++ projects.
 It can create them and updates them automatically.
 
@@ -55,3 +58,7 @@ Fixed date update on Makefiles
 ### 1.3.1
 
 Format fix in README.md
+
+### 1.4.0
+
+Reworked the edit mechanism allowing the edit history of the file to persist after any header update.

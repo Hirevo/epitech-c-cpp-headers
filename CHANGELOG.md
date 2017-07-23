@@ -20,3 +20,6 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 
 ## 1.3.1
 - Format fix in README.md
+
+## 1.4.0
+- Reworked the edit mechanism allowing the edit history of the file to persist after any header update.

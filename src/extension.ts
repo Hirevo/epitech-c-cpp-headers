@@ -61,6 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
             let date = new Date()
 
             let fileName = vscode.window.activeTextEditor.document.fileName
+            let uri = vscode.window.activeTextEditor.document.uri
             let langId = path.basename(fileName).split(".").reverse()[0];
 
             if (Object.keys(supported).indexOf(langId) == -1) {
@@ -90,10 +91,9 @@ export function activate(context: vscode.ExtensionContext) {
             header = header.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
             header = header.concat(commentEnd[langId], os.EOL, os.EOL)
 
-            let text = (await fs.readFile(fileName)).toString()
-            text = header + text
-
-            fs.writeFile(fileName, text)
+            let edit = new vscode.WorkspaceEdit()
+            edit.set(uri, [vscode.TextEdit.insert(new vscode.Position(0, 0), header)])
+            vscode.workspace.applyEdit(edit)
         }),
         vscode.commands.registerCommand('epitech-c-cpp-headers.setConfig', () => {
             configureSettings(vscode.workspace.getConfiguration("epitech-c-cpp-headers"), true)
@@ -102,20 +102,26 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(...disposables)
 
-    vscode.workspace.onDidSaveTextDocument(async (ev) => {
-        let langId = path.basename(ev.fileName).split(".").reverse()[0];
+    vscode.workspace.onWillSaveTextDocument((ev) => {
+        ev.waitUntil(new Promise((resolve, reject) => {
+            let langId = path.basename(ev.document.fileName).split(".").reverse()[0];
 
-        if (Object.keys(supported).indexOf(langId) == -1)
-            return
+            if (Object.keys(supported).indexOf(langId) == -1)
+                resolve()
 
-        langId = supported[langId]
+            langId = supported[langId]
 
-        let date = new Date()
-        let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username
-        username = (username === null) ? os.userInfo().username : username
-        let text = (await fs.readFile(ev.fileName)).toString()
-        text = text.replace(new RegExp(`(${escapeRegExpString(commentMid[langId])} ${escapeRegExpString(headerLast)})(.*)(${os.EOL})`), commentMid[langId].concat(" ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL))
-        fs.writeFile(ev.fileName, text)
+            let date = new Date()
+            let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username
+            username = (username === null) ? os.userInfo().username : username
+            let file = ev.document.getText()
+            let regex = new RegExp(`(${escapeRegExpString(commentMid[langId])} ${escapeRegExpString(headerLast)})(.*)(${os.EOL})`)
+            let match = regex.exec(file)
+            if (match.length == 0)
+                resolve();
+            let TextEdit = new vscode.TextEdit(new vscode.Range(ev.document.positionAt(match.index), ev.document.positionAt(match.index + match[0].length)), commentMid[langId].concat(" ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL))
+            resolve([TextEdit])
+        }))
     })
 }
 

@@ -40,16 +40,32 @@ export function activate(context: vscode.ExtensionContext) {
         headerFor = " for ",
         headerIn = " in ",
         domaineName = "",
-        commentStart = { c: "/*", cpp: "//", Makefile: "##" },
-        commentMid = { c: "**", cpp: "//", Makefile: "##" },
-        commentEnd = { c: "*/", cpp: "//", Makefile: "##" }
+        commentStart = { c: "/*", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*" },
+        commentMid = { c: "**", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**" },
+        commentEnd = { c: "*/", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/" }
+
+    let eols = ["", "\n", "\r\n"]
 
     let supported = {
         "c": "c",
         "h": "c",
         "cpp": "cpp",
         "hpp": "cpp",
-        "Makefile": "Makefile"
+        "cc": "cpp",
+        "hh": "cpp",
+        "C": "cpp",
+        "H": "cpp",
+        "cxx": "cpp",
+        "hxx": "cpp",
+        "c++": "cpp",
+        "h++": "cpp",
+        "Makefile": "Makefile",
+        "py": "Python",
+        "sh": "Shell",
+        "tex": "LaTeX",
+        "java": "Java",
+        "cs": "C#",
+        "m": "ObjectiveC"
     }
 
     const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -60,8 +76,10 @@ export function activate(context: vscode.ExtensionContext) {
 
             let date = new Date()
 
-            let fileName = vscode.window.activeTextEditor.document.fileName
-            let uri = vscode.window.activeTextEditor.document.uri
+            let document = vscode.window.activeTextEditor.document
+            let fileName = document.fileName
+            let uri = document.uri
+            let eol = eols[document.eol]
             let langId = path.basename(fileName).split(".").reverse()[0];
 
             if (Object.keys(supported).indexOf(langId) == -1) {
@@ -81,15 +99,15 @@ export function activate(context: vscode.ExtensionContext) {
 
             let header = ""
 
-            header = header.concat(commentStart[langId], os.EOL)
-            header = header.concat(commentMid[langId], " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), os.EOL)
-            header = header.concat(commentMid[langId], os.EOL)
-            header = header.concat(commentMid[langId], " ", headerMadeBy, username, os.EOL)
-            header = header.concat(commentMid[langId], " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, os.EOL)
-            header = header.concat(commentMid[langId], os.EOL)
-            header = header.concat(commentMid[langId], " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
-            header = header.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL)
-            header = header.concat(commentEnd[langId], os.EOL, os.EOL)
+            header = header.concat(commentStart[langId], eol)
+            header = header.concat(commentMid[langId], " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), eol)
+            header = header.concat(commentMid[langId], eol)
+            header = header.concat(commentMid[langId], " ", headerMadeBy, username, eol)
+            header = header.concat(commentMid[langId], " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, eol)
+            header = header.concat(commentMid[langId], eol)
+            header = header.concat(commentMid[langId], " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, eol)
+            header = header.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, eol)
+            header = header.concat(commentEnd[langId], eol, eol)
 
             let edit = new vscode.WorkspaceEdit()
             edit.set(uri, [vscode.TextEdit.insert(new vscode.Position(0, 0), header)])
@@ -115,11 +133,11 @@ export function activate(context: vscode.ExtensionContext) {
             let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username
             username = (username === null) ? os.userInfo().username : username
             let file = ev.document.getText()
-            let regex = new RegExp(`(${escapeRegExpString(commentMid[langId])} ${escapeRegExpString(headerLast)})(.*)(${os.EOL})`)
+            let regex = new RegExp(`(${escapeRegExpString(commentMid[langId])} ${escapeRegExpString(headerLast)})(.*)(${eols[ev.document.eol]})`)
             let match = regex.exec(file)
             if (match.length == 0)
                 resolve();
-            let TextEdit = new vscode.TextEdit(new vscode.Range(ev.document.positionAt(match.index), ev.document.positionAt(match.index + match[0].length)), commentMid[langId].concat(" ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, os.EOL))
+            let TextEdit = new vscode.TextEdit(new vscode.Range(ev.document.positionAt(match.index), ev.document.positionAt(match.index + match[0].length)), commentMid[langId].concat(" ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, eols[ev.document.eol]))
             resolve([TextEdit])
         }))
     })

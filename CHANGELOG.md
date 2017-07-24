@@ -27,3 +27,9 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ## 1.4.1
 
 - Fixed issues in README.md
+
+## 1.5.0
+
+- Added support for Python, Shell scripts, C#, Objective-C, Java, LaTex
+- Added better support for C++
+- Added End-of-line encoding independance, for inter-operability between different OSs

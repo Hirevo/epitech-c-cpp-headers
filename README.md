@@ -3,6 +3,8 @@
 This is a handler for EPITECH headers in C/C++ projects.
 It can create them and updates them automatically.
 
+[Link to the Visual Studio Code Marketplace extension page.](https://marketplace.visualstudio.com/items?itemName=nicolaspolomack.epitech-c-cpp-headers)
+
 ## Features
 
 You can create a header for a new file by:
@@ -63,3 +65,9 @@ Reworked the edit mechanism allowing the edit history of the file to persist aft
 ### 1.4.1
 
 Fixed issues in README.md
+
+### 1.5.0
+
+Added support for Python, Shell scripts, C#, Objective-C, Java, LaTeX  
+Added better support for C++  
+Added End-of-line encoding independance, for inter-operability between different OSs  

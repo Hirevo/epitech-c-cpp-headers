@@ -76,18 +76,19 @@ export function activate(context: vscode.ExtensionContext) {
 
             let date = new Date()
 
-            let document = vscode.window.activeTextEditor.document
+            let editor = vscode.window.activeTextEditor
+            let document = editor.document
             let fileName = document.fileName
             let uri = document.uri
             let eol = eols[document.eol]
-            let langId = path.basename(fileName).split(".").reverse()[0];
+            let ext = path.basename(fileName).split(".").reverse()[0];
 
-            if (Object.keys(supported).indexOf(langId) == -1) {
+            if (Object.keys(supported).indexOf(ext) == -1) {
                 vscode.window.showErrorMessage("The currently opened file isn't a supported file.")
                 return
             }
 
-            langId = supported[langId]
+            let langId = supported[ext]
 
             let projName: string | undefined = await vscode.window.showInputBox({ prompt: "Type project name: " })
             if (projName === undefined)
@@ -97,21 +98,33 @@ export function activate(context: vscode.ExtensionContext) {
             let username: string = (config.username === null) ? os.userInfo().username : config.username
             let login: string = (config.login === null) ? "" : config.login
 
-            let header = ""
+            let editContent = ""
 
-            header = header.concat(commentStart[langId], eol)
-            header = header.concat(commentMid[langId], " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), eol)
-            header = header.concat(commentMid[langId], eol)
-            header = header.concat(commentMid[langId], " ", headerMadeBy, username, eol)
-            header = header.concat(commentMid[langId], " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, eol)
-            header = header.concat(commentMid[langId], eol)
-            header = header.concat(commentMid[langId], " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, eol)
-            header = header.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, eol)
-            header = header.concat(commentEnd[langId], eol, eol)
+            editContent = editContent.concat(commentStart[langId], eol)
+            editContent = editContent.concat(commentMid[langId], " ", path.basename(fileName), headerFor, projName, headerIn, path.dirname(fileName), eol)
+            editContent = editContent.concat(commentMid[langId], eol)
+            editContent = editContent.concat(commentMid[langId], " ", headerMadeBy, username, eol)
+            editContent = editContent.concat(commentMid[langId], " ", headerLogin, headerLoginBeg, login, headerLoginMid, domaineName, headerLoginEnd, eol)
+            editContent = editContent.concat(commentMid[langId], eol)
+            editContent = editContent.concat(commentMid[langId], " ", headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, eol)
+            editContent = editContent.concat(commentMid[langId], " ", headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, eol)
+            editContent = editContent.concat(commentEnd[langId], eol, eol)
+
+            let isEmptyHeaderFile = (document.getText() == '' && ext.match(/^h|hpp|H|hh$/))
+
+            if (isEmptyHeaderFile) {
+                let id = path.basename(fileName).replace('.', '_').concat("_").toLocaleUpperCase()
+                editContent = editContent.concat("#ifndef ", id, eol, "# define ", id, eol, eol, eol, eol, "#endif /* !", id, " */", eol)
+            }
 
             let edit = new vscode.WorkspaceEdit()
-            edit.set(uri, [vscode.TextEdit.insert(new vscode.Position(0, 0), header)])
+            edit.set(uri, [vscode.TextEdit.insert(new vscode.Position(0, 0), editContent)])
             vscode.workspace.applyEdit(edit)
+
+            if (isEmptyHeaderFile) {
+                let pos = new vscode.Position(13, 0)
+                editor.selection = new vscode.Selection(pos, pos)
+            }
         }),
         vscode.commands.registerCommand('epitech-c-cpp-headers.setConfig', () => {
             configureSettings(vscode.workspace.getConfiguration("epitech-c-cpp-headers"), true)

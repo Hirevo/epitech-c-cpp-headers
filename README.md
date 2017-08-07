@@ -71,3 +71,8 @@ Fixed issues in README.md
 Added support for Python, Shell scripts, C#, Objective-C, Java, LaTeX  
 Added better support for C++  
 Added End-of-line encoding independance, for inter-operability between different OSs  
+
+### 1.6.0
+
+Added auto-insertion of header define guards for C/C++ empty header files  
+Added cursor auto-positionning, to set it ready to type  

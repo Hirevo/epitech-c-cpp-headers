@@ -76,3 +76,8 @@ Added End-of-line encoding independance, for inter-operability between different
 
 Added auto-insertion of header define guards for C/C++ empty header files  
 Added cursor auto-positionning, to set it ready to type  
+
+### 1.7.0
+
+Added internal multi-format support  
+Implemented the new 2017 header format (Promo 2022)  

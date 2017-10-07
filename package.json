@@ -2,7 +2,7 @@
     "name": "epitech-c-cpp-headers",
     "displayName": "EPITECH C/C++ Headers",
     "description": "An EPITECH header handler for C/C++ projects",
-    "version": "1.6.0",
+    "version": "1.7.1",
     "publisher": "nicolaspolomack",
     "author": {
         "name": "Nicolas Polomack",
@@ -61,6 +61,15 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Specifies if the extension prompts for unknown settings."
+                },
+                "epitech-c-cpp-headers.headerType": {
+                    "type": "string",
+                    "default": "post2022",
+                    "enum": [
+                        "post2017",
+                        "pre2017"
+                    ],
+                    "description": "Specifies the type of header to use."
                 }
             }
         }

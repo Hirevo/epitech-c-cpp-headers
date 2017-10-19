@@ -64,7 +64,7 @@
                 },
                 "epitech-c-cpp-headers.headerType": {
                     "type": "string",
-                    "default": "post2022",
+                    "default": "post2017",
                     "enum": [
                         "post2017",
                         "pre2017"

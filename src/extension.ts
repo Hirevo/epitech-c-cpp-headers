@@ -65,10 +65,12 @@ const syntax = {
         headerFor: " for ",
         headerIn: " in ",
         domaineName: "",
-        offsetHeaderFile: 13
+        offsetHeaderFile: 13,
+        preProcessorStyle: "# "
     },
     post2017: {
-        offsetHeaderFile: 10
+        offsetHeaderFile: 10,
+        preProcessorStyle: "	#"
     },
     commentStart: { c: "/*", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*" },
     commentMid: { c: "**", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**" },
@@ -181,7 +183,7 @@ export function activate(context: vscode.ExtensionContext) {
 
             if (isEmptyHeaderFile) {
                 let id = path.basename(fileInfo.fileName).replace('.', '_').concat("_").toLocaleUpperCase()
-                editContent = editContent.concat("#ifndef ", id, fileInfo.eol, "# define ", id, fileInfo.eol, fileInfo.eol, fileInfo.eol, fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
+                editContent = editContent.concat("#ifndef ", id, fileInfo.eol, syntax[config.headerType].preProcessorStyle, "define ", id, fileInfo.eol, fileInfo.eol, fileInfo.eol, fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
             }
 
             let edit = new vscode.WorkspaceEdit()

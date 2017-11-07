@@ -81,3 +81,7 @@ Added cursor auto-positionning, to set it ready to type
 
 Added internal multi-format support  
 Implemented the new 2017 header format (Promo 2022)  
+
+### 1.7.3
+
+Changed pre-processors indent style for the 2017 header format  

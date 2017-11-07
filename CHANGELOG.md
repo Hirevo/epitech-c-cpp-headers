@@ -39,3 +39,6 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ## 1.7.0
 - Added internal multi-format support (new auto-config routine entry)
 - Implemented the new 2017 header format (Promo 2022)
+
+## 1.7.3
+- Changed pre-processors indent style for the 2017 header format

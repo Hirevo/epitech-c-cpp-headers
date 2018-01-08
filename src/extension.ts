@@ -72,9 +72,9 @@ const syntax = {
         offsetHeaderFile: 10,
         preProcessorStyle: "	#"
     },
-    commentStart: { c: "/*", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*" },
-    commentMid: { c: "**", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**" },
-    commentEnd: { c: "*/", cpp: "//", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/" }
+    commentStart: { c: "/*", cpp: "/*", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*" },
+    commentMid: { c: "**", cpp: "**", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**" },
+    commentEnd: { c: "*/", cpp: "*/", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/" }
 }
 
 const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -97,7 +97,7 @@ async function configureSettings(config: vscode.WorkspaceConfiguration, force = 
             config.update("login", resp, true)
     }
     let resp = await vscode.window.showQuickPick(["Pre 2017", "Post 2017"], { placeHolder: "Select the header format to use:" })
-    config.update("headerType", resp.replace(/\s+/g, '').toLowerCase())
+    config.update("headerType", resp.replace(/\s+/g, '').toLowerCase(), true)
     vscode.window.showInformationMessage("EPITECH Headers have been successfully configured !")
 }
 

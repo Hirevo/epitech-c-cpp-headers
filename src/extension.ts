@@ -23,6 +23,7 @@ interface Config {
     username: string;
     login: string;
     headerType: string;
+    usePragmaOnce: Boolean;
 }
 
 interface HeaderGenerator {
@@ -170,6 +171,7 @@ export function activate(context: vscode.ExtensionContext) {
             config.username = (config.handle.username === null) ? os.userInfo().username : config.handle.username
             config.login = (config.handle.login === null) ? "" : config.handle.login
             config.headerType = config.handle.headerType
+            config.usePragmaOnce = config.handle.usePragmaOnce || false
 
             if (config.headerType == "post2017") {
                 fileInfo.description = await vscode.window.showInputBox({ prompt: "Type project description: " })
@@ -183,7 +185,10 @@ export function activate(context: vscode.ExtensionContext) {
 
             if (isEmptyHeaderFile) {
                 let id = path.basename(fileInfo.fileName).replace('.', '_').concat("_").toLocaleUpperCase()
-                editContent = editContent.concat("#ifndef ", id, fileInfo.eol, syntax[config.headerType].preProcessorStyle, "define ", id, fileInfo.eol, fileInfo.eol, fileInfo.eol, fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
+                if (config.usePragmaOnce)
+                    editContent = editContent.concat("#pragma once", fileInfo.eol, fileInfo.eol)
+                else
+                    editContent = editContent.concat("#ifndef ", id, fileInfo.eol, syntax[config.headerType].preProcessorStyle, "define ", id, fileInfo.eol, fileInfo.eol, fileInfo.eol, fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
             }
 
             let edit = new vscode.WorkspaceEdit()

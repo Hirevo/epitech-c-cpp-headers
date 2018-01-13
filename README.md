@@ -88,5 +88,5 @@ Changed pre-processors indent style for the 2017 header format
 
 ### 1.7.4
 
-Fixed C++ headers
-Fixed issue with config being saved as local instead of global
+Fixed C++ headers  
+Fixed issue with config being saved as local instead of global  

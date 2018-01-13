@@ -9,7 +9,7 @@
         "email": "nipolom@live.fr"
     },
     "engines": {
-        "vscode": "^1.13.0"
+        "vscode": "^1.18.1"
     },
     "categories": [
         "Other"

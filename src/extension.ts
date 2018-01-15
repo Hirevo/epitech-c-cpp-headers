@@ -6,7 +6,7 @@ import * as os from "os";
 import * as path from "path";
 import { Config, FileInfo, HeaderGenerator } from "./interfaces";
 import { Days, Months, Eols, SupportedLanguages, Syntax } from "./constants";
-import { generate, updateHeader, appendIfndef } from "./generators";
+import { generate, updateHeader, appendIfndef, appendClass, appendConstructorDestructor } from "./generators";
 import { loadConfig, configureSettings } from "./config";
 import { isUpper } from "./misc";
 
@@ -58,18 +58,32 @@ export function activate(context: vscode.ExtensionContext) {
             let offsetX = 0;
 
             const isEmptyHeaderFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^h|hpp|H|hh$/))
+            const isEmptySourceFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^c|cpp|C|cc$/))
 
             if (isEmptyHeaderFile) {
                 const name = path.basename(fileInfo.fileName).replace('.', '_').replace("-", "_").concat("_")
                 const id = name.toLocaleUpperCase()
+                const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2)
                 if (config.usePragmaOnce)
                     editContent = editContent.concat("#pragma once", fileInfo.eol, fileInfo.eol)
                 else
                     editContent = appendIfndef(editContent, id, fileInfo, config);
+                if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0])) {
+                    editContent = appendClass(editContent, className, fileInfo);
+                    offsetY += 6;
+                    offsetX = 2;
+                }
                 if (!config.usePragmaOnce)
                     editContent = editContent.concat(fileInfo.eol, fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
             }
 
+            if (isEmptySourceFile) {
+                const name = path.basename(fileInfo.fileName).replace('.', '_').replace("-", "_").concat("_")
+                const id = name.toLocaleUpperCase()
+                const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2)
+                if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0]))
+                    editContent = appendConstructorDestructor(editContent, className, fileInfo);
+            }
 
             const edit = new vscode.WorkspaceEdit()
             edit.set(fileInfo.uri, [vscode.TextEdit.insert(new vscode.Position(0, 0), editContent)])

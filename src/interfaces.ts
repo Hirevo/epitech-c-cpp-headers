@@ -18,6 +18,7 @@ export interface Config {
     login: string;
     headerType: string;
     usePragmaOnce: boolean;
+    autoGenerateClasses: boolean;
 }
 
 export interface HeaderGenerator {

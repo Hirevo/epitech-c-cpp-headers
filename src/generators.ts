@@ -39,8 +39,26 @@ function generatePost2017Header(fileInfo: FileInfo, config: Config, date: Date) 
     return editContent
 }
 
+export function appendClass(editContent: string, className: string, fileInfo: FileInfo) {
+    editContent = editContent.concat("class ", className, " {", fileInfo.eol)
+    editContent = editContent.concat("\tpublic:", fileInfo.eol, "\t\t", className, "();", fileInfo.eol, "\t\t~", className, "();", fileInfo.eol, "\tprotected:", fileInfo.eol, "\tprivate:", fileInfo.eol)
+    editContent = editContent.concat("};")
+    return editContent;
+}
+
 export function appendIfndef(editContent: string, id: string, fileInfo: FileInfo, config: Config) {
     return editContent.concat("#ifndef ", id, fileInfo.eol, Syntax[config.headerType].preProcessorStyle, "define ", id, fileInfo.eol, fileInfo.eol)
+}
+
+export function appendConstructorDestructor(editContent: string, className: string, fileInfo: FileInfo) {
+    const map = { "cpp": "hpp", "C": "H", "cc": "hh" };
+
+    editContent = editContent.concat("#include \"", path.basename(fileInfo.fileName).replace("." + fileInfo.ext, "." + map[fileInfo.ext]), "\"", fileInfo.eol);
+    editContent = editContent.concat(fileInfo.eol, className, "::", className, "()", fileInfo.eol);
+    editContent = editContent.concat("{", fileInfo.eol, "}", fileInfo.eol);
+    editContent = editContent.concat(fileInfo.eol, className, "::~", className, "()", fileInfo.eol);
+    editContent = editContent.concat("{", fileInfo.eol, "}", fileInfo.eol);
+    return editContent;
 }
 
 export function updateHeader(ev: vscode.TextDocumentWillSaveEvent): Promise<vscode.TextEdit[] | undefined> {

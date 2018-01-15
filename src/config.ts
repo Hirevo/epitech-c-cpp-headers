@@ -22,6 +22,11 @@ export async function configureSettings(config: vscode.WorkspaceConfiguration, f
         if (resp !== undefined)
             config.update("usePragmaOnce", resp == "#pragma once", true)
     }
+    {
+        const resp = await vscode.window.showInformationMessage("Do you want automatic C++ class generation ?", "Yes", "No")
+        if (resp !== undefined)
+            config.update("autoGenerateClasses", resp == "Yes", true)
+    }
     vscode.window.showInformationMessage("EPITECH Headers have been successfully configured !")
 }
 
@@ -33,5 +38,6 @@ export function loadConfig() {
     config.login = (config.handle.login === null) ? "" : config.handle.login
     config.headerType = config.handle.headerType || "post2017"
     config.usePragmaOnce = config.handle.usePragmaOnce || false
+    config.autoGenerateClasses = config.handle.autoGenerateClasses || true
     return config
 }

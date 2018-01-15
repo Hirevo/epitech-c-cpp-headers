@@ -46,3 +46,8 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ## 1.7.4
 - Fixed C++ headers
 - Fixed issue with config being saved as local instead of global
+
+## 1.8.0
+
+- Added support for '#pragma once' header guards (Thanks to @lodi-g for the pull request)
+- Added C++ automatic class generator in source and header files

@@ -8,7 +8,7 @@ It can create them and updates them automatically.
 ## Features
 
 You can create a header for a new file by:
-- Using the `epitech-c-cpp-headers.addHandler` command
+- Using the `epitech-c-cpp-headers.addHeader` command
 - Pressing `ctrl+shift+h` (`cmd+shift+h` on macOS)
 
 Each time you save a C or C++ file with a header, it will update it automatically.
@@ -27,6 +27,8 @@ This extension uses the following configuration entries:
 * `epitech-c-cpp-headers.username`: Specify the username to use in headers (default: null)
 * `epitech-c-cpp-headers.login`: Specify the login to use in headers (default: null)
 * `epitech-c-cpp-headers.prompt`: Specify if the extension should prompt for unknown configuration fields (default: true)
+* `epitech-c-cpp-headers.usePragmaOnce`: Specifies if '#pragma once' should be used as header guard instead of '#ifndef ...' (default: false)
+* `epitech-c-cpp-headers.autoGenerateClasses`: Specifies if automatic C++ class generation is enabled (default: true)
 
 ## Known Issues
 
@@ -90,3 +92,8 @@ Changed pre-processors indent style for the 2017 header format
 
 Fixed C++ headers  
 Fixed issue with config being saved as local instead of global  
+
+### 1.8.0
+
+Added support for '#pragma once' header guards (Thanks to @lodi-g for the pull request)  
+Added C++ automatic class generator in source and header files  

@@ -51,3 +51,7 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 
 - Added support for '#pragma once' header guards (Thanks to @lodi-g for the pull request)
 - Added C++ automatic class generator in source and header files
+
+## 1.8.1
+
+- Fixed scolar year in post2017 headers

@@ -19,8 +19,8 @@ function generatePre2017Header(fileInfo: FileInfo, config: Config, date: Date) {
     editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", Syntax.pre2017.headerMadeBy, config.username, fileInfo.eol)
     editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", Syntax.pre2017.headerLogin, Syntax.pre2017.headerLoginBeg, config.login, Syntax.pre2017.headerLoginMid, Syntax.pre2017.domaineName, Syntax.pre2017.headerLoginEnd, fileInfo.eol)
     editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], fileInfo.eol)
-    editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", Syntax.pre2017.headerStarted, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", config.username, fileInfo.eol)
-    editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", Syntax.pre2017.headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", config.username, fileInfo.eol)
+    editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", Syntax.pre2017.headerStarted, Days[date.getDay() - 1], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", config.username, fileInfo.eol)
+    editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", Syntax.pre2017.headerLast, Days[date.getDay() - 1], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", config.username, fileInfo.eol)
     editContent = editContent.concat(Syntax.commentEnd[fileInfo.langId], fileInfo.eol, fileInfo.eol)
 
     return editContent

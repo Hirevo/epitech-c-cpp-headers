@@ -59,3 +59,7 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ## 1.8.2
 
 - Fixed the day in pre2017 headers (Thanks to @SaShimy for the pull request)
+
+## 1.8.3
+
+- Reverted the 1.8.1 patch as it was not correct to begin with

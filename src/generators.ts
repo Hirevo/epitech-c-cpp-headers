@@ -29,14 +29,8 @@ function generatePre2017Header(fileInfo: FileInfo, config: Config, date: Date) {
 function generatePost2017Header(fileInfo: FileInfo, config: Config, date: Date) {
     let editContent = ""
 
-    function getYear() {
-        const year = date.getFullYear();
-        const month = date.getMonth();
-        return year - ((month < 8) ? 1 : 0);
-    }
-
     editContent = editContent.concat(Syntax.commentStart[fileInfo.langId], fileInfo.eol)
-    editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", "EPITECH PROJECT, ", getYear().toString(), fileInfo.eol)
+    editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", "EPITECH PROJECT, ", date.getFullYear().toString(), fileInfo.eol)
     editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", fileInfo.projName, fileInfo.eol)
     editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", "File description:", fileInfo.eol)
     editContent = editContent.concat(Syntax.commentMid[fileInfo.langId], " ", fileInfo.description as string, fileInfo.eol)

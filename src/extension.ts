@@ -42,15 +42,21 @@ export function activate(context: vscode.ExtensionContext) {
             fileInfo.langId = SupportedLanguages[fileInfo.ext]
 
             fileInfo.projName = await vscode.window.showInputBox({ prompt: "Type project name: " })
-            if (fileInfo.projName === undefined)
+            if (fileInfo.projName === undefined) {
                 return
+            } else if (fileInfo.projName === '') {
+                fileInfo.projName = vscode.workspace.name;
+            }
 
             const config = loadConfig();
 
             if (config.headerType == "post2017") {
                 fileInfo.description = await vscode.window.showInputBox({ prompt: "Type project description: " })
-                if (fileInfo.description === undefined)
-                    fileInfo.description = ""
+                if (fileInfo.description === undefined) {
+                    fileInfo.description = "";
+                } else if (fileInfo.description === '') {
+                    fileInfo.description = fileInfo.fileName.split('/').reverse()[0].replace(fileInfo.ext, '').slice(0, -1);
+                }
             }
 
             let editContent = generate[config.headerType](fileInfo, config, date)

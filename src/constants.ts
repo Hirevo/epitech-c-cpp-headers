@@ -1,4 +1,3 @@
-
 export const Eols = ["", "\n", "\r\n"]
 
 export const SupportedLanguages = {

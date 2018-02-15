@@ -18,7 +18,7 @@ export async function configureSettings(config: vscode.WorkspaceConfiguration, f
         config.update("headerType", resp.replace(/\s+/g, '').toLowerCase(), true)
     }
     {
-        const resp = await vscode.window.showInformationMessage("Whoch header guard do you want to use ?", "#ifndef", "#pragma once")
+        const resp = await vscode.window.showInformationMessage("Which header guard do you want to use ?", "#ifndef", "#pragma once")
         if (resp !== undefined)
             config.update("usePragmaOnce", resp == "#pragma once", true)
     }

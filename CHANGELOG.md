@@ -63,3 +63,7 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ## 1.8.3
 
 - Reverted the 1.8.1 patch as it was not correct to begin with
+
+## 1.9.0
+
+- Added header auto-filling (with workspace name and filename, thanks to @lodi-g for the pull request)

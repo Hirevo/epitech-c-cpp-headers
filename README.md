@@ -110,3 +110,7 @@ Fixed the day in pre2017 headers (Thanks to @SaShimy for the pull request)
 ### 1.8.3
 
 Reverted the 1.8.1 patch as it was not correct to begin with  
+
+### 1.9.0
+
+Added header auto-filling (with workspace name and filename, thanks to @lodi-g for the pull request)

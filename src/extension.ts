@@ -41,7 +41,7 @@ export function activate(context: vscode.ExtensionContext) {
 
             fileInfo.langId = SupportedLanguages[fileInfo.ext]
 
-            fileInfo.projName = await vscode.window.showInputBox({ prompt: "Type project name (Leave empty to use workspace name): " })
+            fileInfo.projName = await vscode.window.showInputBox({ prompt: "Type project name: ", placeHolder: "Leave empty to use workspace name..." })
             if (fileInfo.projName === undefined) {
                 return
             } else if (fileInfo.projName === '') {
@@ -51,7 +51,7 @@ export function activate(context: vscode.ExtensionContext) {
             const config = loadConfig();
 
             if (config.headerType == "post2017") {
-                fileInfo.description = await vscode.window.showInputBox({ prompt: "Type project description (Leave empty to use filename): " })
+                fileInfo.description = await vscode.window.showInputBox({ prompt: "Type project description: ", placeHolder: "Leave empty to use filename..." })
                 if (fileInfo.description === undefined) {
                     fileInfo.description = "";
                 } else if (fileInfo.description === '') {

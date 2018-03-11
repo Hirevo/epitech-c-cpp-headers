@@ -55,7 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
                 if (fileInfo.description === undefined) {
                     fileInfo.description = "";
                 } else if (fileInfo.description === '') {
-                    fileInfo.description = fileInfo.fileName.split('/').reverse()[0].replace(fileInfo.ext, '').slice(0, -1);
+                    fileInfo.description = fileInfo.fileName.split('/').reverse()[0].slice(0, -(fileInfo.ext.length + 1));
                 }
             }
 

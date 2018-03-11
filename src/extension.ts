@@ -17,36 +17,34 @@ export function activate(context: vscode.ExtensionContext) {
     if (extConfig.prompt === true && (extConfig.username === null || extConfig.login === null || extConfig.headerType === null))
         vscode.window.showInformationMessage("Do you want to quickly set up EPITECH headers ?", "Yes", "No").then((resp) => {
             if (resp === "Yes")
-                configureSettings(extConfig)
-        })
+                configureSettings(extConfig);
+        });
 
     const disposables = [
         vscode.commands.registerCommand('epitech-c-cpp-headers.addHeader', async () => {
 
-            const date = new Date()
+            const date = new Date();
+            const fileInfo = {} as FileInfo;
 
-            const fileInfo = {} as FileInfo
-
-            fileInfo.editor = vscode.window.activeTextEditor
-            fileInfo.document = fileInfo.editor.document
-            fileInfo.fileName = fileInfo.document.fileName
-            fileInfo.uri = fileInfo.document.uri
-            fileInfo.eol = Eols[fileInfo.document.eol]
-            fileInfo.ext = path.basename(fileInfo.fileName).split(".").reverse()[0]
+            fileInfo.editor = vscode.window.activeTextEditor;
+            fileInfo.document = fileInfo.editor.document;
+            fileInfo.fileName = fileInfo.document.fileName;
+            fileInfo.uri = fileInfo.document.uri;
+            fileInfo.eol = Eols[fileInfo.document.eol];
+            fileInfo.ext = path.basename(fileInfo.fileName).split(".").reverse()[0];
 
             if (Object.keys(SupportedLanguages).indexOf(fileInfo.ext) == -1) {
-                vscode.window.showErrorMessage("The currently opened file isn't a supported file.")
-                return
+                vscode.window.showErrorMessage("The currently opened file isn't a supported file.");
+                return;
             }
 
-            fileInfo.langId = SupportedLanguages[fileInfo.ext]
+            fileInfo.langId = SupportedLanguages[fileInfo.ext];
 
-            fileInfo.projName = await vscode.window.showInputBox({ prompt: "Type project name: ", placeHolder: "Leave empty to use workspace name..." })
-            if (fileInfo.projName === undefined) {
-                return
-            } else if (fileInfo.projName === '') {
+            fileInfo.projName = await vscode.window.showInputBox({ prompt: "Type project name: ", placeHolder: "Leave empty to use workspace name..." });
+            if (fileInfo.projName === undefined)
+                return;
+            else if (fileInfo.projName === '')
                 fileInfo.projName = vscode.workspace.name;
-            }
 
             const config = loadConfig();
 
@@ -55,7 +53,11 @@ export function activate(context: vscode.ExtensionContext) {
                 if (fileInfo.description === undefined) {
                     fileInfo.description = "";
                 } else if (fileInfo.description === '') {
-                    fileInfo.description = fileInfo.fileName.split('/').reverse()[0].slice(0, -(fileInfo.ext.length + 1));
+                    const basename = path.basename(fileInfo.fileName);
+                    if (/^[^\.]+\..+$/.test(basename))
+                        fileInfo.description = basename.slice(0, -(fileInfo.ext.length + 1));
+                    else
+                        fileInfo.description = basename;
                 }
             }
 

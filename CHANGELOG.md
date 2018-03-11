@@ -67,3 +67,8 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ## 1.9.0
 
 - Added header auto-filling (with workspace name and filename, thanks to @lodi-g for the pull request)
+
+## 1.9.1
+
+- Fixed issues with auto-filled headers (Thanks to @MrYannKee for the bug report and pull request)
+- Fixed empty auto-filled headers for files without extensions (like Makefile)

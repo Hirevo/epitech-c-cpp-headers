@@ -119,3 +119,7 @@ Added header auto-filling (with workspace name and filename, thanks to @lodi-g f
 
 Fixed issues with auto-filled headers (Thanks to @MrYannKee for the bug report and pull request)  
 Fixed empty auto-filled headers for files without extensions (like Makefile)  
+
+### 1.9.2
+
+Added support for Rust files and C++ template files  

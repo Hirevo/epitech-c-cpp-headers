@@ -5,6 +5,8 @@ export const SupportedLanguages = {
     "h": "c",
     "cpp": "cpp",
     "hpp": "cpp",
+    "tpp": "cpp",
+    "ipp": "cpp",
     "cc": "cpp",
     "hh": "cpp",
     "C": "cpp",
@@ -19,7 +21,8 @@ export const SupportedLanguages = {
     "tex": "LaTeX",
     "java": "Java",
     "cs": "C#",
-    "m": "ObjectiveC"
+    "m": "ObjectiveC",
+    "rs": "Rust"
 }
 
 export const Syntax = {
@@ -41,9 +44,9 @@ export const Syntax = {
         offsetHeaderFile: 10,
         preProcessorStyle: "	#"
     },
-    commentStart: { c: "/*", cpp: "/*", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*" },
-    commentMid: { c: "**", cpp: "**", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**" },
-    commentEnd: { c: "*/", cpp: "*/", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/" }
+    commentStart: { c: "/*", cpp: "/*", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*", Rust: "//" },
+    commentMid: { c: "**", cpp: "**", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**", Rust: "//" },
+    commentEnd: { c: "*/", cpp: "*/", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/", Rust: "//" }
 }
 
 export const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]

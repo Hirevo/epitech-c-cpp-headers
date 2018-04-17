@@ -41,8 +41,8 @@ function generatePost2017Header(fileInfo: FileInfo, config: Config, date: Date) 
 
 export function appendClass(editContent: string, className: string, fileInfo: FileInfo) {
     editContent = editContent.concat("class ", className, " {", fileInfo.eol)
-    editContent = editContent.concat("\tpublic:", fileInfo.eol, "\t\t", className, "();", fileInfo.eol, "\t\t~", className, "();", fileInfo.eol, "\tprotected:", fileInfo.eol, "\tprivate:", fileInfo.eol)
-    editContent = editContent.concat("};")
+    editContent = editContent.concat("\tpublic:", fileInfo.eol, "\t\t", className, "();", fileInfo.eol, "\t\t~", className, "();", fileInfo.eol, fileInfo.eol, "\tprotected:", fileInfo.eol, "\tprivate:", fileInfo.eol)
+    editContent = editContent.concat("};", fileInfo.eol)
     return editContent;
 }
 

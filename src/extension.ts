@@ -78,11 +78,11 @@ export function activate(context: vscode.ExtensionContext) {
                     editContent = appendIfndef(editContent, id, fileInfo, config);
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0])) {
                     editContent = appendClass(editContent, className, fileInfo);
-                    offsetY += 6;
-                    offsetX = 2;
+                    offsetY += 3 + Number(config.usePragmaOnce == false);
+                    offsetX = 0;
                 }
                 if (!config.usePragmaOnce)
-                    editContent = editContent.concat(fileInfo.eol, fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
+                    editContent = editContent.concat(fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
             }
 
             if (isEmptySourceFile) {

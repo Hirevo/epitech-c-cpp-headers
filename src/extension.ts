@@ -1,5 +1,3 @@
-'use strict';
-
 import * as vscode from "vscode";
 import * as fs from "fs-extra";
 import * as os from "os";
@@ -11,8 +9,7 @@ import { loadConfig, configureSettings } from "./config";
 import { isUpper } from "./misc";
 
 export function activate(context: vscode.ExtensionContext) {
-
-    const extConfig = vscode.workspace.getConfiguration("epitech-c-cpp-headers")
+    const extConfig = vscode.workspace.getConfiguration("epitech-c-cpp-headers");
 
     if (extConfig.prompt === true && (extConfig.username === null || extConfig.login === null || extConfig.headerType === null))
         vscode.window.showInformationMessage("Do you want to quickly set up EPITECH headers ?", "Yes", "No").then((resp) => {
@@ -22,7 +19,6 @@ export function activate(context: vscode.ExtensionContext) {
 
     const disposables = [
         vscode.commands.registerCommand('epitech-c-cpp-headers.addHeader', async () => {
-
             const date = new Date();
             const fileInfo = {} as FileInfo;
 
@@ -61,19 +57,19 @@ export function activate(context: vscode.ExtensionContext) {
                 }
             }
 
-            let editContent = generate[config.headerType](fileInfo, config, date)
+            let editContent = generate[config.headerType](fileInfo, config, date);
             let offsetY = Syntax[config.headerType].offsetHeaderFile;
             let offsetX = 0;
 
-            const isEmptyHeaderFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^h|hpp|H|hh$/))
-            const isEmptySourceFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^c|cpp|C|cc$/))
+            const isEmptyHeaderFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^(?:h|hpp|H|hh)$/));
+            const isEmptySourceFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^(?:c|cpp|C|cc)$/));
 
             if (isEmptyHeaderFile) {
-                const name = path.basename(fileInfo.fileName).replace('.', '_').replace("-", "_").concat("_")
-                const id = name.toLocaleUpperCase()
-                const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2)
+                const name = path.basename(fileInfo.fileName).replace('.', '_').replace("-", "_").concat("_");
+                const id = name.toLocaleUpperCase();
+                const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
                 if (config.usePragmaOnce)
-                    editContent = editContent.concat("#pragma once", fileInfo.eol, fileInfo.eol)
+                    editContent = editContent.concat("#pragma once", fileInfo.eol, fileInfo.eol);
                 else
                     editContent = appendIfndef(editContent, id, fileInfo, config);
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0])) {
@@ -82,34 +78,34 @@ export function activate(context: vscode.ExtensionContext) {
                     offsetX = 0;
                 }
                 if (!config.usePragmaOnce)
-                    editContent = editContent.concat(fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol)
+                    editContent = editContent.concat(fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol);
             }
 
             if (isEmptySourceFile) {
-                const name = path.basename(fileInfo.fileName).replace('.', '_').replace("-", "_").concat("_")
-                const id = name.toLocaleUpperCase()
-                const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2)
+                const name = path.basename(fileInfo.fileName).replace('.', '_').replace("-", "_").concat("_");
+                const id = name.toLocaleUpperCase();
+                const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0]))
                     editContent = appendConstructorDestructor(editContent, className, fileInfo);
             }
 
-            const edit = new vscode.WorkspaceEdit()
-            edit.set(fileInfo.uri, [vscode.TextEdit.insert(new vscode.Position(0, 0), editContent)])
-            vscode.workspace.applyEdit(edit)
+            const edit = new vscode.WorkspaceEdit();
+            edit.set(fileInfo.uri, [vscode.TextEdit.insert(new vscode.Position(0, 0), editContent)]);
+            vscode.workspace.applyEdit(edit);
 
             if (isEmptyHeaderFile) {
-                const pos = new vscode.Position(offsetY, offsetX)
-                fileInfo.editor.selection = new vscode.Selection(pos, pos)
+                const pos = new vscode.Position(offsetY, offsetX);
+                fileInfo.editor.selection = new vscode.Selection(pos, pos);
             }
         }),
         vscode.commands.registerCommand('epitech-c-cpp-headers.setConfig', () => {
-            configureSettings(vscode.workspace.getConfiguration("epitech-c-cpp-headers"), true)
+            configureSettings(vscode.workspace.getConfiguration("epitech-c-cpp-headers"), true);
         })
-    ]
+    ];
 
-    context.subscriptions.push(...disposables)
+    context.subscriptions.push(...disposables);
 
-    vscode.workspace.onWillSaveTextDocument((ev) => ev.waitUntil(updateHeader(ev)))
+    vscode.workspace.onWillSaveTextDocument((ev) => ev.waitUntil(updateHeader(ev)));
 }
 
 export function deactivate() {

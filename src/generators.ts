@@ -63,28 +63,27 @@ export function appendConstructorDestructor(editContent: string, className: stri
 
 export function updateHeader(ev: vscode.TextDocumentWillSaveEvent): Promise<vscode.TextEdit[] | undefined> {
     return new Promise((resolve, reject) => {
-
-        const config = vscode.workspace.getConfiguration("epitech-c-cpp-headers")
+        const config = vscode.workspace.getConfiguration("epitech-c-cpp-headers");
 
         if (config.headerType == "post2017")
-            resolve()
+            resolve();
 
         let langId = path.basename(ev.document.fileName).split(".").reverse()[0];
 
         if (Object.keys(SupportedLanguages).indexOf(langId) == -1)
-            resolve()
+            resolve();
 
-        langId = SupportedLanguages[langId]
+        langId = SupportedLanguages[langId];
 
-        const date = new Date()
-        let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username
-        username = (username === null) ? os.userInfo().username : username
-        const file = ev.document.getText()
-        const regex = new RegExp(`(${escapeRegExpString(Syntax.commentMid[langId])} ${escapeRegExpString(Syntax.pre2017.headerLast)})(.*)(${Eols[ev.document.eol]})`)
-        const match = regex.exec(file)
+        const date = new Date();
+        let username = vscode.workspace.getConfiguration("epitech-c-cpp-headers").username;
+        username = (username === null) ? os.userInfo().username : username;
+        const file = ev.document.getText();
+        const regex = new RegExp(`(${escapeRegExpString(Syntax.commentMid[langId])} ${escapeRegExpString(Syntax.pre2017.headerLast)})(.*)(${Eols[ev.document.eol]})`);
+        const match = regex.exec(file);
         if (match.length == 0)
             resolve();
-        const TextEdit = new vscode.TextEdit(new vscode.Range(ev.document.positionAt(match.index), ev.document.positionAt(match.index + match[0].length)), Syntax.commentMid[langId].concat(" ", Syntax.pre2017.headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, Eols[ev.document.eol]))
-        resolve([TextEdit])
-    })
+        const TextEdit = new vscode.TextEdit(new vscode.Range(ev.document.positionAt(match.index), ev.document.positionAt(match.index + match[0].length)), Syntax.commentMid[langId].concat(" ", Syntax.pre2017.headerLast, Days[date.getDay()], " ", Months[date.getMonth()], " ", date.getDate().toString(), " ", date.toLocaleTimeString(), " ", date.getFullYear().toString(), " ", username, Eols[ev.document.eol]));
+        resolve([TextEdit]);
+    });
 }

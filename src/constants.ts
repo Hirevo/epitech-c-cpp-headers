@@ -1,4 +1,5 @@
-export const Eols = ["", "\n", "\r\n"]
+
+export const Eols = ["", "\n", "\r\n"];
 
 export const SupportedLanguages = {
     "c": "c",
@@ -22,8 +23,10 @@ export const SupportedLanguages = {
     "java": "Java",
     "cs": "C#",
     "m": "ObjectiveC",
-    "rs": "Rust"
-}
+    "rs": "Rust",
+    "hs": "Haskell",
+    "lhs": "Haskell"
+};
 
 export const Syntax = {
     pre2017: {
@@ -44,10 +47,10 @@ export const Syntax = {
         offsetHeaderFile: 10,
         preProcessorStyle: "	#"
     },
-    commentStart: { c: "/*", cpp: "/*", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*", Rust: "//" },
-    commentMid: { c: "**", cpp: "**", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**", Rust: "//" },
-    commentEnd: { c: "*/", cpp: "*/", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/", Rust: "//" }
-}
+    commentStart: { c: "/*", cpp: "/*", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*", Rust: "//", Haskell: "--" },
+    commentMid: { c: "**", cpp: "**", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**", Rust: "//", Haskell: "--" },
+    commentEnd: { c: "*/", cpp: "*/", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/", Rust: "//", Haskell: "--" }
+};
 
-export const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-export const Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+export const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

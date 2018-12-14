@@ -81,3 +81,7 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 
 - Added support for Haskell files
 - Fixed issue where normal files could be flagged as C/C++ files for header generation
+
+## 1.10.0
+
+- Added support for Go files

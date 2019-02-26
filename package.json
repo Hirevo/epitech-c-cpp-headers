@@ -2,7 +2,7 @@
     "name": "epitech-c-cpp-headers",
     "displayName": "EPITECH C/C++ Headers",
     "description": "An EPITECH header handler for C/C++ projects",
-    "version": "1.9.5",
+    "version": "1.9.6",
     "publisher": "nicolaspolomack",
     "repository": {
         "type": "git",

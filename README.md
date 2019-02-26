@@ -128,3 +128,7 @@ Added support for Rust files and C++ template files
 
 Added support for Haskell files  
 Fixed issue where normal files could be flagged as C/C++ files for header generation  
+
+### 1.9.6
+
+Fixed indentation issue with auto-insertion of header define guards for C/C++ empty header files

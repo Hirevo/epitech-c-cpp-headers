@@ -85,3 +85,7 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ## 1.10.0
 
 - Added support for Go files
+
+## 1.12.0
+
+- Fixed indentation issue with auto-insertion of header define guards for C/C++ empty header files

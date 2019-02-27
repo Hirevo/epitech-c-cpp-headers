@@ -46,7 +46,7 @@ export const Syntax = {
     },
     post2017: {
         offsetHeaderFile: 10,
-        preProcessorStyle: "	#"
+        preProcessorStyle: "    #"
     },
     commentStart: { c: "/*", cpp: "/*", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "/*", "C#": "/*", ObjectiveC: "/*", Rust: "//", Haskell: "--", Go: "//" },
     commentMid: { c: "**", cpp: "**", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "**", "C#": "**", ObjectiveC: "**", Rust: "//", Haskell: "--", Go: "//" },

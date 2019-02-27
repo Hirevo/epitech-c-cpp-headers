@@ -47,10 +47,7 @@ export function appendClass(editContent: string, className: string, fileInfo: Fi
 }
 
 export function appendIfndef(editContent: string, id: string, fileInfo: FileInfo, config: Config) {
-    if (config.headerType == "post2017")
-        return editContent.concat("#ifndef ", id, fileInfo.eol, "    #define ", id, fileInfo.eol, fileInfo.eol);
-    else
-        return editContent.concat("#ifndef ", id, fileInfo.eol, Syntax[config.headerType].preProcessorStyle, "define ", id, fileInfo.eol, fileInfo.eol);
+    return editContent.concat("#ifndef ", id, fileInfo.eol, Syntax[config.headerType].preProcessorStyle, "define ", id, fileInfo.eol, fileInfo.eol);
 }
 
 export function appendConstructorDestructor(editContent: string, className: string, fileInfo: FileInfo) {

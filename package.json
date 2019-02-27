@@ -2,7 +2,7 @@
     "name": "epitech-c-cpp-headers",
     "displayName": "EPITECH C/C++ Headers",
     "description": "An EPITECH header handler for C/C++ projects",
-    "version": "1.12.0",
+    "version": "1.11.0",
     "publisher": "nicolaspolomack",
     "repository": {
         "type": "git",
@@ -105,10 +105,10 @@
     "devDependencies": {
         "@types/fs-extra": "^3.0.3",
         "@types/mocha": "^2.2.48",
-        "@types/node": "^6.0.118",
+        "@types/node": "^6.14.3",
         "mocha": "^2.3.3",
         "typescript": "^2.9.2",
-        "vscode": "^1.1.21"
+        "vscode": "^1.1.30"
     },
     "dependencies": {
         "escape-string-regexp": "^1.0.5",

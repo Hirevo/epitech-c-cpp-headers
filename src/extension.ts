@@ -67,9 +67,11 @@ export function activate(context: vscode.ExtensionContext) {
             if (isEmptyHeaderFile) {
                 let name = await vscode.window.showInputBox({ prompt: "Type header definer: ", placeHolder: "Leave empty to use filename as header..."})
                 if (name === undefined) {
-                    name = path.basename(fileInfo.fileName);
+                    name = "";
+                } else if (name === '') {
+                    name = path.basename(fileInfo.fileName)
                 }
-                name = name.replace(" ", "_").replace('.', '_').replace("-", "_").concat("_")
+                name = name.replace(/ /g, "_").replace('.', '_').replace(/-/g, "_").concat("_")
                 const id = name.toLocaleUpperCase();
                 const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
                 if (config.usePragmaOnce)

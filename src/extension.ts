@@ -92,7 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
             }
 
             if (isEmptySourceFile) {
-                const name = path.basename(fileInfo.fileName).replace('.', '_').replace("-", "_").concat("_");
+                const name = path.basename(fileInfo.fileName).replace(/[^A-Za-z0-9]/g, "_").concat("_");
                 const id = name.toLocaleUpperCase();
                 const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0]))

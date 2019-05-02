@@ -66,13 +66,17 @@ export function activate(context: vscode.ExtensionContext) {
 
             if (isEmptyHeaderFile) {
                 let name = await vscode.window.showInputBox({ prompt: "Type header definer: ", placeHolder: "Leave empty to use filename as header..."})
+                let index_char = 0;
+                while ((index_char = name.search(/([^A-Za-z0-9_])/)) != -1) {
+                    vscode.window.showErrorMessage("\'" + name[index_char] + "\' isn't accepted as character for the header guard. The header guard can just contain alphanumerical characters and '_'. Retype a valid name or leave empty to use the filename.")
+                    name = await vscode.window.showInputBox({ prompt: "Type header guard: ", placeHolder: "Reenter a valid guard or leave empty to use filename as header..."})
+                }
                 if (name === undefined) {
                     name = "";
                 } else if (name === '') {
-                    name = path.basename(fileInfo.fileName)
+                    name = path.basename(fileInfo.fileName).replace(/[^A-Za-z0-9]/g, "_").concat("_").toLocaleUpperCase();
                 }
-                name = name.replace(/ /g, "_").replace('.', '_').replace(/-/g, "_").concat("_")
-                const id = name.toLocaleUpperCase();
+                const id = name
                 const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
                 if (config.usePragmaOnce)
                     editContent = editContent.concat("#pragma once", fileInfo.eol, fileInfo.eol);

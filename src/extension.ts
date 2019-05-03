@@ -36,18 +36,27 @@ export function activate(context: vscode.ExtensionContext) {
 
             fileInfo.langId = SupportedLanguages[fileInfo.ext];
 
-            fileInfo.projName = await vscode.window.showInputBox({ prompt: "Type project name: ", placeHolder: "Leave empty to use workspace name..." });
-            if (fileInfo.projName === undefined)
+            fileInfo.projName = await vscode.window.showInputBox({
+                prompt: "Type project name: ",
+                placeHolder: "Leave empty to generate one based on workspace name...",
+            });
+            if (fileInfo.projName === undefined) {
+                vscode.window.showInformationMessage("Operation canceled !");
                 return;
-            else if (fileInfo.projName === '')
+            } else if (fileInfo.projName === '') {
                 fileInfo.projName = vscode.workspace.name;
+            }
 
             const config = loadConfig();
 
             if (config.headerType == "post2017") {
-                fileInfo.description = await vscode.window.showInputBox({ prompt: "Type project description: ", placeHolder: "Leave empty to use filename..." })
+                fileInfo.description = await vscode.window.showInputBox({
+                    prompt: "Type project description: ",
+                    placeHolder: "Leave empty to generate one based on filename...",
+                })
                 if (fileInfo.description === undefined) {
-                    fileInfo.description = "";
+                    vscode.window.showInformationMessage("Operation canceled !");
+                    return;
                 } else if (fileInfo.description === '') {
                     const basename = path.basename(fileInfo.fileName);
                     if (/^[^\.]+\..+$/.test(basename))
@@ -65,35 +74,45 @@ export function activate(context: vscode.ExtensionContext) {
             const isEmptySourceFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^(?:c|cpp|C|cc)$/));
 
             if (isEmptyHeaderFile) {
-                let name = await vscode.window.showInputBox({ prompt: "Type header definer: ", placeHolder: "Leave empty to use filename as header..."})
-                let index_char = 0;
-                while ((index_char = name.search(/([^A-Za-z0-9_])/)) != -1) {
-                    vscode.window.showErrorMessage("\'" + name[index_char] + "\' isn't accepted as character for the header guard. The header guard can just contain alphanumerical characters and '_'. Retype a valid name or leave empty to use the filename.")
-                    name = await vscode.window.showInputBox({ prompt: "Type header guard: ", placeHolder: "Reenter a valid guard or leave empty to use filename as header..."})
-                }
-                if (name === undefined) {
-                    name = "";
-                } else if (name === '') {
-                    name = path.basename(fileInfo.fileName).replace(/[^A-Za-z0-9]/g, "_").concat("_").toLocaleUpperCase();
-                }
-                const id = name
-                const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
-                if (config.usePragmaOnce)
+                const base = path.basename(fileInfo.fileName);
+                const className = base.substr(0, base.length - fileInfo.ext.length - 1);
+                let name: string | undefined = undefined;
+                if (config.usePragmaOnce) {
                     editContent = editContent.concat("#pragma once", fileInfo.eol, fileInfo.eol);
-                else
-                    editContent = appendIfndef(editContent, id, fileInfo, config);
+                } else {
+                    name = await vscode.window.showInputBox({
+                        prompt: "Type header guard's name: ",
+                        placeHolder: "Leave empty to generate one based on filename...",
+                        validateInput: name => {
+                            const results = /([^A-Za-z0-9_])/.exec(name);
+                            if (!results) {
+                                return undefined;
+                            } else {
+                                return `'${results[0]}' isn't valid.
+                                    Only alphanumeric characters and '_' are allowed in header guards.
+                                    Please try again with a valid name or leave empty to generate one based on the filename.`;
+                            }
+                        },
+                    });
+                    if (name === undefined) {
+                        vscode.window.showInformationMessage("Operation canceled !");
+                        return;
+                    }
+                    name = name || base.replace(/[^A-Za-z0-9]/g, "_").concat("_").toLocaleUpperCase();
+                    editContent = appendIfndef(editContent, name, fileInfo, config);
+                }
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0])) {
                     editContent = appendClass(editContent, className, fileInfo);
                     offsetY += 3 + Number(config.usePragmaOnce == false);
                     offsetX = 0;
                 }
-                if (!config.usePragmaOnce)
-                    editContent = editContent.concat(fileInfo.eol, "#endif /* !", id, " */", fileInfo.eol);
+                if (!config.usePragmaOnce) {
+                    editContent = editContent.concat(fileInfo.eol, "#endif /* !", name, " */", fileInfo.eol);
+                }
             }
 
             if (isEmptySourceFile) {
                 const name = path.basename(fileInfo.fileName).replace(/[^A-Za-z0-9]/g, "_").concat("_");
-                const id = name.toLocaleUpperCase();
                 const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0]))
                     editContent = appendConstructorDestructor(editContent, className, fileInfo);

@@ -1,13 +1,16 @@
-# EPITECH C/C++ Headers
+EPITECH C/C++ Headers
+=====================
 
 This is a handler for EPITECH headers in C/C++ projects.
 It can create them and updates them automatically.
 
 [Link to the Visual Studio Code Marketplace extension page.](https://marketplace.visualstudio.com/items?itemName=nicolaspolomack.epitech-c-cpp-headers)
 
-## Features
+Features
+--------
 
 You can create a header for a new file by:
+
 - Using the `epitech-c-cpp-headers.addHeader` command
 - Pressing `ctrl+shift+h` (`cmd+shift+h` on macOS)
 
@@ -16,25 +19,29 @@ Each time you save a C or C++ file with a header, it will update it automaticall
 You can configure the headers in a very simple manner by executing the `epitech-c-cpp-headers.setConfig` command.  
 By default, it will execute it on launch when a configuration field is left unknown.
 
-## Requirements
+Requirements
+------------
 
 No dependancies
 
-## Extension Settings
+Extension Settings
+------------------
 
 This extension uses the following configuration entries:
 
-* `epitech-c-cpp-headers.username`: Specify the username to use in headers (default: null)
-* `epitech-c-cpp-headers.login`: Specify the login to use in headers (default: null)
-* `epitech-c-cpp-headers.prompt`: Specify if the extension should prompt for unknown configuration fields (default: true)
-* `epitech-c-cpp-headers.usePragmaOnce`: Specifies if '#pragma once' should be used as header guard instead of '#ifndef ...' (default: false)
-* `epitech-c-cpp-headers.autoGenerateClasses`: Specifies if automatic C++ class generation is enabled (default: true)
+- `epitech-c-cpp-headers.username`: Specify the username to use in headers (default: null)
+- `epitech-c-cpp-headers.login`: Specify the login to use in headers (default: null)
+- `epitech-c-cpp-headers.prompt`: Specify if the extension should prompt for unknown configuration fields (default: true)
+- `epitech-c-cpp-headers.usePragmaOnce`: Specifies if '#pragma once' should be used as header guard instead of '#ifndef ...' (default: false)
+- `epitech-c-cpp-headers.autoGenerateClasses`: Specifies if automatic C++ class generation is enabled (default: true)
 
-## Known Issues
+Known Issues
+------------
 
 None
 
-## Release Notes
+Release Notes
+-------------
 
 ### 1.0.0
 
@@ -102,7 +109,6 @@ Added C++ automatic class generator in source and header files
 
 Fixed scolar year in post2017 headers  
 
-
 ### 1.8.2
 
 Fixed the day in pre2017 headers (Thanks to @SaShimy for the pull request)  
@@ -132,3 +138,7 @@ Fixed issue where normal files could be flagged as C/C++ files for header genera
 ### 1.12.0
 
 Fixed indentation issue with auto-insertion of header define guards for C/C++ empty header files
+
+### 1.13.0
+
+Added ability to rename **`#ifndef`** header guards (Thanks to @ColColty for the pull request)

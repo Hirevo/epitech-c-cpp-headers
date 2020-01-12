@@ -106,7 +106,7 @@
         "@types/fs-extra": "^3.0.3",
         "@types/mocha": "^2.2.48",
         "@types/node": "^6.14.3",
-        "mocha": "^2.3.3",
+        "mocha": "^7.0.0",
         "typescript": "^2.9.2",
         "vscode": "^1.1.30"
     },

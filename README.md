@@ -1,6 +1,9 @@
 EPITECH C/C++ Headers
 =====================
 
+[![GitHub license](https://img.shields.io/github/license/Hirevo/epitech-c-cpp-headers)](https://github.com/Hirevo/epitech-c-cpp-headers/blob/master/LICENSE)
+[![Dependabot Status](https://api.dependabot.com/badges/status?host=github&repo=Hirevo/epitech-c-cpp-headers)](https://dependabot.com)
+
 This is a handler for EPITECH headers in C/C++ projects.
 It can create them and updates them automatically.
 

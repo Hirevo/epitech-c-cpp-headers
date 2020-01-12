@@ -1,21 +1,26 @@
-import * as vscode from "vscode";
-import * as fs from "fs-extra";
-import * as os from "os";
 import * as path from "path";
-import { Config, FileInfo, HeaderGenerator } from "./interfaces";
-import { Days, Months, Eols, SupportedLanguages, Syntax } from "./constants";
-import { generate, updateHeader, appendIfndef, appendClass, appendConstructorDestructor } from "./generators";
-import { loadConfig, configureSettings } from "./config";
+import * as vscode from "vscode";
+import { configureSettings, loadConfig } from "./config";
+import { EOLS, SUPPORTED_LANGUAGES, SYNTAX } from "./constants";
+import { appendClass, appendConstructorDestructor, appendIfndef, generate, updateHeader } from "./generators";
+import { FileInfo } from "./interfaces";
 import { isUpper } from "./misc";
 
 export function activate(context: vscode.ExtensionContext) {
     const extConfig = vscode.workspace.getConfiguration("epitech-c-cpp-headers");
 
-    if (extConfig.prompt === true && (extConfig.username === null || extConfig.login === null || extConfig.headerType === null))
-        vscode.window.showInformationMessage("Do you want to quickly set up EPITECH headers ?", "Yes", "No").then((resp) => {
-            if (resp === "Yes")
+    if (extConfig.prompt === true && (extConfig.username === null || extConfig.login === null || extConfig.headerType === null)) {
+        (async () => {
+            const resp = await vscode.window.showInformationMessage(
+                "Do you want to quickly set up EPITECH headers ?",
+                "Yes",
+                "No",
+            );
+            if (resp === "Yes") {
                 configureSettings(extConfig);
-        });
+            }
+        })();
+    }
 
     const disposables = [
         vscode.commands.registerCommand('epitech-c-cpp-headers.addHeader', async () => {
@@ -26,15 +31,15 @@ export function activate(context: vscode.ExtensionContext) {
             fileInfo.document = fileInfo.editor.document;
             fileInfo.fileName = fileInfo.document.fileName;
             fileInfo.uri = fileInfo.document.uri;
-            fileInfo.eol = Eols[fileInfo.document.eol];
+            fileInfo.eol = EOLS[fileInfo.document.eol];
             fileInfo.ext = path.basename(fileInfo.fileName).split(".").reverse()[0];
 
-            if (Object.keys(SupportedLanguages).indexOf(fileInfo.ext) == -1) {
+            if (!(fileInfo.ext in SUPPORTED_LANGUAGES)) {
                 vscode.window.showErrorMessage("The currently opened file isn't a supported file.");
                 return;
             }
 
-            fileInfo.langId = SupportedLanguages[fileInfo.ext];
+            fileInfo.langId = SUPPORTED_LANGUAGES[fileInfo.ext];
 
             fileInfo.projName = await vscode.window.showInputBox({
                 prompt: "Type project name: ",
@@ -53,21 +58,22 @@ export function activate(context: vscode.ExtensionContext) {
                 fileInfo.description = await vscode.window.showInputBox({
                     prompt: "Type project description: ",
                     placeHolder: "Leave empty to generate one based on filename...",
-                })
+                });
                 if (fileInfo.description === undefined) {
                     vscode.window.showInformationMessage("Operation canceled !");
                     return;
                 } else if (fileInfo.description === '') {
                     const basename = path.basename(fileInfo.fileName);
-                    if (/^[^\.]+\..+$/.test(basename))
+                    if (/^[^\.]+\..+$/.test(basename)) {
                         fileInfo.description = basename.slice(0, -(fileInfo.ext.length + 1));
-                    else
+                    } else {
                         fileInfo.description = basename;
+                    }
                 }
             }
 
             let editContent = generate[config.headerType](fileInfo, config, date);
-            let offsetY = Syntax[config.headerType].offsetHeaderFile;
+            let offsetY = SYNTAX[config.headerType].offsetHeaderFile;
             let offsetX = 0;
 
             const isEmptyHeaderFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^(?:h|hpp|H|hh)$/));
@@ -114,8 +120,9 @@ export function activate(context: vscode.ExtensionContext) {
             if (isEmptySourceFile) {
                 const name = path.basename(fileInfo.fileName).replace(/[^A-Za-z0-9]/g, "_").concat("_");
                 const className = path.basename(fileInfo.fileName).substr(0, name.length - fileInfo.ext.length - 2);
-                if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0]))
+                if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0])) {
                     editContent = appendConstructorDestructor(editContent, className, fileInfo);
+                }
             }
 
             const edit = new vscode.WorkspaceEdit();
@@ -129,12 +136,12 @@ export function activate(context: vscode.ExtensionContext) {
         }),
         vscode.commands.registerCommand('epitech-c-cpp-headers.setConfig', () => {
             configureSettings(vscode.workspace.getConfiguration("epitech-c-cpp-headers"), true);
-        })
+        }),
     ];
 
     context.subscriptions.push(...disposables);
 
-    vscode.workspace.onWillSaveTextDocument((ev) => ev.waitUntil(updateHeader(ev)));
+    vscode.workspace.onWillSaveTextDocument(ev => ev.waitUntil(updateHeader(ev)));
 }
 
 export function deactivate() {

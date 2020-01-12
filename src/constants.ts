@@ -1,7 +1,6 @@
+export const EOLS = ["", "\n", "\r\n"];
 
-export const Eols = ["", "\n", "\r\n"];
-
-export const SupportedLanguages = {
+export const SUPPORTED_LANGUAGES = {
     "c": "c",
     "h": "c",
     "cpp": "cpp",
@@ -29,7 +28,7 @@ export const SupportedLanguages = {
     "lhs": "Haskell"
 };
 
-export const Syntax = {
+export const SYNTAX = {
     pre2017: {
         headerMadeBy: "Made by ",
         headerLogin: "Login   ",
@@ -53,5 +52,5 @@ export const Syntax = {
     commentEnd: { c: "*/", cpp: "*/", Makefile: "##", Python: "##", Shell: "##", LaTeX: "%%", Java: "*/", "C#": "*/", ObjectiveC: "*/", Rust: "//", Haskell: "--", Go: "//" }
 };
 
-export const Days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-export const Months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+export const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+export const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];

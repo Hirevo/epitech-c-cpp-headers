@@ -64,7 +64,7 @@ function getTabType(): string {
 export function appendClass(editContent: string, className: string, fileInfo: FileInfo, config: Config): string {
 
     const tab = getTabType();
-    if (config.indentedAccessSpecified == true)
+    if (config.indentedAccessSpecifier == true)
         return editContent.concat(
             `class ${className} {`, fileInfo.eol,
             tab, 'public:', fileInfo.eol,

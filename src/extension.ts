@@ -108,7 +108,7 @@ export function activate(context: vscode.ExtensionContext) {
                     editContent = appendIfndef(editContent, name, fileInfo, config);
                 }
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0])) {
-                    editContent = appendClass(editContent, className, fileInfo);
+                    editContent = appendClass(editContent, className, fileInfo, config);
                     offsetY += 3 + Number(config.usePragmaOnce == false);
                     offsetX = 0;
                 }

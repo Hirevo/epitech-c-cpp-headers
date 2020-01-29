@@ -4,6 +4,8 @@ import * as vscode from "vscode";
 import * as escapeRegExpString from "escape-string-regexp";
 import { DAYS, EOLS, MONTHS, SUPPORTED_LANGUAGES, SYNTAX } from "./constants";
 import { Config, FileInfo, HeaderGenerator } from "./interfaces";
+import { configureSettings } from "./config";
+import { stringLiteral } from "babel-types";
 
 export const generate: HeaderGenerator = {
     pre2017: generatePre2017Header,
@@ -40,17 +42,51 @@ function generatePost2017Header(fileInfo: FileInfo, config: Config, date: Date):
     );
 }
 
-export function appendClass(editContent: string, className: string, fileInfo: FileInfo): string {
-    return editContent.concat(
-        `class ${className} {`, fileInfo.eol,
-        '\tpublic:', fileInfo.eol,
-        `\t\t${className}();`, fileInfo.eol,
-        `\t\t~${className}();`, fileInfo.eol,
-        fileInfo.eol,
-        '\tprotected:', fileInfo.eol,
-        '\tprivate:', fileInfo.eol,
-        '};', fileInfo.eol,
-    );
+function getTabType(): string {
+    const editor = vscode.window.activeTextEditor;
+    let tab: string;
+    let tabSize: number = (editor.options.tabSize as number);
+    if (!editor) {
+        tab = "    ";
+        return tab;
+    }
+    if (editor.options.insertSpaces) {
+        if (tabSize)
+            tab += " ".repeat(tabSize);
+        else
+            tab = "    ";
+    }
+    else
+        tab = "\t";
+    return tab;
+}
+
+export function appendClass(editContent: string, className: string, fileInfo: FileInfo, config: Config): string {
+
+    const tab = getTabType();
+    if (config.indentedAccessSpecified == true)
+        return editContent.concat(
+            `class ${className} {`, fileInfo.eol,
+            tab, 'public:', fileInfo.eol,
+            tab.repeat(2), `${className}();`, fileInfo.eol,
+            tab.repeat(2), `~${className}();`, fileInfo.eol,
+            fileInfo.eol,
+            tab, 'protected:', fileInfo.eol,
+            tab, 'private:', fileInfo.eol,
+            '};', fileInfo.eol,
+        );
+    else {
+        return editContent.concat(
+            `class ${className} {`, fileInfo.eol,
+            'public:', fileInfo.eol,
+            tab, `${className}();`, fileInfo.eol,
+            tab, `~${className}();`, fileInfo.eol,
+            fileInfo.eol,
+            'protected:', fileInfo.eol,
+            'private:', fileInfo.eol,
+            '};', fileInfo.eol,
+        );
+    }
 }
 
 export function appendIfndef(editContent: string, id: string, fileInfo: FileInfo, config: Config): string {

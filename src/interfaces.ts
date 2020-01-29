@@ -19,6 +19,7 @@ export interface Config {
     headerType: string;
     usePragmaOnce: boolean;
     autoGenerateClasses: boolean;
+    indentedAccessSpecifier: boolean;
 }
 
 export interface HeaderGenerator {

@@ -41,14 +41,14 @@ export async function configureSettings(config: vscode.WorkspaceConfiguration, f
         if (resp !== undefined) {
             config.update("autoGenerateClasses", resp == "Yes", true);
         }
-        if (resp == true) {
+        if (resp == "Yes") {
             const indentResp = await vscode.window.showInformationMessage(
-                "Do you want public, protected and private to be indented ?",
+                "Do you want public, protected and private keywords to be indented ?",
                 "Yes",
                 "No",
             );
             if (indentResp !== undefined) {
-                config.update("indentedAccessSpecified", indentResp == "Yes", true);
+                config.update("indentAccessSpecifiers", indentResp == "Yes", true);
             }
         }
     }
@@ -59,11 +59,11 @@ export function loadConfig(): Config {
     const config = {} as Config;
 
     config.handle = vscode.workspace.getConfiguration("epitech-c-cpp-headers");
-    config.username = (config.handle.username === null) ? os.userInfo().username : config.handle.username;
+        config.username = (config.handle.username === null) ? os.userInfo().username : config.handle.username;
     config.login = (config.handle.login === null) ? "" : config.handle.login;
     config.headerType = config.handle.headerType || "post2017";
     config.usePragmaOnce = config.handle.usePragmaOnce || false;
     config.autoGenerateClasses = config.handle.autoGenerateClasses || true;
-    config.indentedAccessSpecifier = config.handle.indentedAccessSpecified || true;
+    config.indentAccessSpecifiers = config.handle.indentAccessSpecifiers;
     return config;
 }

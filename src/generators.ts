@@ -44,7 +44,7 @@ function generatePost2017Header(fileInfo: FileInfo, config: Config, date: Date):
 
 function getTabType(): string {
     const editor = vscode.window.activeTextEditor;
-    let tab: string;
+    let tab: string = "";
     let tabSize: number = (editor.options.tabSize as number);
     if (!editor) {
         tab = "    ";
@@ -61,32 +61,34 @@ function getTabType(): string {
     return tab;
 }
 
-export function appendClass(editContent: string, className: string, fileInfo: FileInfo, config: Config): string {
+export function appendClass(editContent: string, className: string, fileInfo: FileInfo): string {
 
-    const tab = getTabType();
-    if (config.indentedAccessSpecifier == true)
-        return editContent.concat(
-            `class ${className} {`, fileInfo.eol,
-            tab, 'public:', fileInfo.eol,
-            tab.repeat(2), `${className}();`, fileInfo.eol,
-            tab.repeat(2), `~${className}();`, fileInfo.eol,
-            fileInfo.eol,
-            tab, 'protected:', fileInfo.eol,
-            tab, 'private:', fileInfo.eol,
-            '};', fileInfo.eol,
-        );
-    else {
-        return editContent.concat(
-            `class ${className} {`, fileInfo.eol,
-            'public:', fileInfo.eol,
-            tab, `${className}();`, fileInfo.eol,
-            tab, `~${className}();`, fileInfo.eol,
-            fileInfo.eol,
-            'protected:', fileInfo.eol,
-            'private:', fileInfo.eol,
-            '};', fileInfo.eol,
-        );
-    }
+    const tab: string = getTabType();
+    return editContent.concat(
+        `class ${className} {`, fileInfo.eol,
+        tab, 'public:', fileInfo.eol,
+        tab.repeat(2), `${className}();`, fileInfo.eol,
+        tab.repeat(2), `~${className}();`, fileInfo.eol,
+        fileInfo.eol,
+        tab, 'protected:', fileInfo.eol,
+        tab, 'private:', fileInfo.eol,
+        '};', fileInfo.eol,
+    );
+}
+
+export function appendNonIndentedClass(editContent: string, className: string, fileInfo: FileInfo): string {
+
+    const tab: string = getTabType();
+    return editContent.concat(
+        `class ${className} {`, fileInfo.eol,
+        'public:', fileInfo.eol,
+        tab, `${className}();`, fileInfo.eol,
+        tab, `~${className}();`, fileInfo.eol,
+        fileInfo.eol,
+        'protected:', fileInfo.eol,
+        'private:', fileInfo.eol,
+        '};', fileInfo.eol,
+    );
 }
 
 export function appendIfndef(editContent: string, id: string, fileInfo: FileInfo, config: Config): string {

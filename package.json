@@ -30,8 +30,7 @@
     ],
     "main": "./out/src/extension.js",
     "contributes": {
-        "commands": [
-            {
+        "commands": [{
                 "command": "epitech-c-cpp-headers.addHeader",
                 "title": "EPITECH C/C++ Headers: Add EPITECH Header"
             },
@@ -40,14 +39,12 @@
                 "title": "EPITECH C/C++ Headers: Configure headers"
             }
         ],
-        "keybindings": [
-            {
-                "command": "epitech-c-cpp-headers.addHeader",
-                "key": "ctrl+shift+h",
-                "mac": "cmd+shift+h",
-                "when": "editorTextFocus"
-            }
-        ],
+        "keybindings": [{
+            "command": "epitech-c-cpp-headers.addHeader",
+            "key": "ctrl+shift+h",
+            "mac": "cmd+shift+h",
+            "when": "editorTextFocus"
+        }],
         "configuration": {
             "type": "object",
             "title": "EPITECH C/C++ Headers Configuration",
@@ -91,6 +88,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Specifies if automatic C++ class generation is enabled."
+                },
+                "epitech-c-cpp-headers.indentAccessSpecifiers": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Specifies if access specifiers indentation is enabled."
                 }
             }
         }

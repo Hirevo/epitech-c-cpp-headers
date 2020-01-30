@@ -61,32 +61,18 @@ function getTabType(): string {
     return tab;
 }
 
-export function appendClass(editContent: string, className: string, fileInfo: FileInfo): string {
-
+export function appendClass(editContent: string, className: string, fileInfo: FileInfo, config: Config): string {
     const tab: string = getTabType();
+    const indent: number = (config.indentAccessSpecifiers) ? 1 : 0;
+
     return editContent.concat(
         `class ${className} {`, fileInfo.eol,
-        tab, 'public:', fileInfo.eol,
-        tab.repeat(2), `${className}();`, fileInfo.eol,
-        tab.repeat(2), `~${className}();`, fileInfo.eol,
+        tab.repeat(indent), 'public:', fileInfo.eol,
+        tab.repeat(indent + 1), `${className}();`, fileInfo.eol,
+        tab.repeat(indent + 1), `~${className}();`, fileInfo.eol,
         fileInfo.eol,
-        tab, 'protected:', fileInfo.eol,
-        tab, 'private:', fileInfo.eol,
-        '};', fileInfo.eol,
-    );
-}
-
-export function appendNonIndentedClass(editContent: string, className: string, fileInfo: FileInfo): string {
-
-    const tab: string = getTabType();
-    return editContent.concat(
-        `class ${className} {`, fileInfo.eol,
-        'public:', fileInfo.eol,
-        tab, `${className}();`, fileInfo.eol,
-        tab, `~${className}();`, fileInfo.eol,
-        fileInfo.eol,
-        'protected:', fileInfo.eol,
-        'private:', fileInfo.eol,
+        tab.repeat(indent), 'protected:', fileInfo.eol,
+        tab.repeat(indent), 'private:', fileInfo.eol,
         '};', fileInfo.eol,
     );
 }

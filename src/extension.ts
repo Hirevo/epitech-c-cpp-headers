@@ -2,7 +2,7 @@ import * as path from "path";
 import * as vscode from "vscode";
 import { configureSettings, loadConfig } from "./config";
 import { EOLS, SUPPORTED_LANGUAGES, SYNTAX } from "./constants";
-import { appendClass, appendConstructorDestructor, appendIfndef, generate, updateHeader, appendNonIndentedClass } from "./generators";
+import { appendClass, appendConstructorDestructor, appendIfndef, generate, updateHeader } from "./generators";
 import { FileInfo } from "./interfaces";
 import { isUpper } from "./misc";
 
@@ -109,9 +109,7 @@ export function activate(context: vscode.ExtensionContext) {
                 }
                 if (config.autoGenerateClasses && fileInfo.langId == "cpp" && isUpper(className[0])) {
                     console.log(config.indentAccessSpecifiers);
-                    editContent = (config.indentAccessSpecifiers)
-                        ? appendClass(editContent, className, fileInfo)
-                        : appendNonIndentedClass(editContent, className, fileInfo);
+                    editContent = appendClass(editContent, className, fileInfo, config);
                     offsetY += 3 + Number(config.usePragmaOnce == false);
                     offsetX = 0;
                 }

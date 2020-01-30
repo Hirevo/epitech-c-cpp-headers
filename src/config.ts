@@ -17,7 +17,7 @@ export async function configureSettings(config: vscode.WorkspaceConfiguration, f
     }
     {
         const resp = await vscode.window.showQuickPick(
-            ["Pre 2017", "Post 2017"],
+            ["Post 2017", "Pre 2017"],
             { placeHolder: "Select the header format to use:" },
         );
         config.update("headerType", resp.replace(/\s+/g, '').toLowerCase(), true);
@@ -59,7 +59,7 @@ export function loadConfig(): Config {
     const config = {} as Config;
 
     config.handle = vscode.workspace.getConfiguration("epitech-c-cpp-headers");
-        config.username = (config.handle.username === null) ? os.userInfo().username : config.handle.username;
+    config.username = (config.handle.username === null) ? os.userInfo().username : config.handle.username;
     config.login = (config.handle.login === null) ? "" : config.handle.login;
     config.headerType = config.handle.headerType || "post2017";
     config.usePragmaOnce = config.handle.usePragmaOnce || false;

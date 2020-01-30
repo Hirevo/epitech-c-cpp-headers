@@ -42,12 +42,16 @@ function generatePost2017Header(fileInfo: FileInfo, config: Config, date: Date):
     );
 }
 
+// getTabType() generates a tab string based on the user's editors settings.
+// If the insertSpaces setting is false : it will just return a '\t'.
+// If it's set to true : it will check the tabSize setting and return a string of that length and made of whitespaces.
 function getTabType(): string {
     const editor = vscode.window.activeTextEditor;
+    const tabSize: number = (editor.options.tabSize as number);
     let tab: string = "";
-    let tabSize: number = (editor.options.tabSize as number);
+
     if (!editor) {
-        tab = "    ";
+        tab = "\t";
         return tab;
     }
     if (editor.options.insertSpaces) {
@@ -61,6 +65,9 @@ function getTabType(): string {
     return tab;
 }
 
+// Generates a class with user-specified indentation style.
+// If indentAccessSpecifiers is true (default) : "public", "protected" and "private" keywords will have an indentation of one tab.
+// if set to false : they won't be indented at all.
 export function appendClass(editContent: string, className: string, fileInfo: FileInfo, config: Config): string {
     const tab: string = getTabType();
     const indent: number = (config.indentAccessSpecifiers) ? 1 : 0;

@@ -4,8 +4,6 @@ import * as vscode from "vscode";
 import * as escapeRegExpString from "escape-string-regexp";
 import { DAYS, EOLS, MONTHS, SUPPORTED_LANGUAGES, SYNTAX } from "./constants";
 import { Config, FileInfo, HeaderGenerator } from "./interfaces";
-import { configureSettings } from "./config";
-import { stringLiteral } from "babel-types";
 
 export const generate: HeaderGenerator = {
     pre2017: generatePre2017Header,

@@ -129,3 +129,11 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 ------
 
 - Added ability to rename **`#ifndef`** header guards (Thanks to @ColColty for the pull request)
+
+1.14.0
+------
+
+(Thanks to @Gr1moire for the pull request introducing all of the following features)
+
+- Added setting to toggle indentation of visibility specifiers in generated C++ class declarations.
+- Indentation in generated code now respects user's preferences instead of always using tabs.

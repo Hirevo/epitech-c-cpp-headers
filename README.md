@@ -145,3 +145,9 @@ Fixed indentation issue with auto-insertion of header define guards for C/C++ em
 ### 1.13.0
 
 Added ability to rename **`#ifndef`** header guards (Thanks to @ColColty for the pull request)
+
+### 1.14.0
+
+Added setting to toggle indentation of visibility specifiers in generated C++ class declarations.  
+Indentation in generated code now respects user's preferences instead of always using tabs.  
+(Thanks to @Gr1moire for the pull request introducing these two features)

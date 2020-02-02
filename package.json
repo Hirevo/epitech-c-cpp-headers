@@ -2,7 +2,7 @@
     "name": "epitech-c-cpp-headers",
     "displayName": "EPITECH C/C++ Headers",
     "description": "An EPITECH header handler for C/C++ projects",
-    "version": "1.13.0",
+    "version": "1.14.0",
     "publisher": "nicolaspolomack",
     "repository": {
         "type": "git",
@@ -30,7 +30,8 @@
     ],
     "main": "./out/src/extension.js",
     "contributes": {
-        "commands": [{
+        "commands": [
+            {
                 "command": "epitech-c-cpp-headers.addHeader",
                 "title": "EPITECH C/C++ Headers: Add EPITECH Header"
             },
@@ -39,12 +40,14 @@
                 "title": "EPITECH C/C++ Headers: Configure headers"
             }
         ],
-        "keybindings": [{
-            "command": "epitech-c-cpp-headers.addHeader",
-            "key": "ctrl+shift+h",
-            "mac": "cmd+shift+h",
-            "when": "editorTextFocus"
-        }],
+        "keybindings": [
+            {
+                "command": "epitech-c-cpp-headers.addHeader",
+                "key": "ctrl+shift+h",
+                "mac": "cmd+shift+h",
+                "when": "editorTextFocus"
+            }
+        ],
         "configuration": {
             "type": "object",
             "title": "EPITECH C/C++ Headers Configuration",

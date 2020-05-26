@@ -113,6 +113,6 @@
         "vscode": "^1.1.37"
     },
     "dependencies": {
-        "escape-string-regexp": "^2.0.0"
+        "escape-string-regexp": "^4.0.0"
     }
 }

@@ -26,6 +26,11 @@ export const SUPPORTED_LANGUAGES = {
     rs: "Rust",
     hs: "Haskell",
     lhs: "Haskell",
+    js: "JavaScript",
+    ts: "JavaScript",
+    jsx: "JavaScript",
+    tsx: "JavaScript",
+    mjs: "JavaScript",
 };
 
 export const SYNTAX = {
@@ -60,6 +65,7 @@ export const SYNTAX = {
         Rust: "//",
         Haskell: "{-",
         Go: "//",
+        JavaScript: "/*",
     },
     commentMid: {
         c: "**",
@@ -74,6 +80,7 @@ export const SYNTAX = {
         Rust: "//",
         Haskell: "--",
         Go: "//",
+        JavaScript: "**",
     },
     commentEnd: {
         c: "*/",
@@ -88,6 +95,7 @@ export const SYNTAX = {
         Rust: "//",
         Haskell: "-}",
         Go: "//",
+        JavaScript: "*/",
     },
 };
 

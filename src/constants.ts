@@ -28,6 +28,9 @@ export const SUPPORTED_LANGUAGES = {
     lhs: "Haskell",
     js: "JavaScript",
     ts: "JavaScript",
+    jsx: "JavaScript",
+    tsx: "JavaScript",
+    mjs: "JavaScript",
 };
 
 export const SYNTAX = {

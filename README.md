@@ -151,3 +151,9 @@ Added ability to rename **`#ifndef`** header guards (Thanks to @ColColty for the
 Added setting to toggle indentation of visibility specifiers in generated C++ class declarations.  
 Indentation in generated code now respects user's preferences instead of always using tabs.  
 (Thanks to @Gr1moire for the pull request introducing these two features)
+
+### 1.15.0
+
+Added support for Assembly files  
+Added support for HTML files, CSS files and JavaScript/TypeScript files (Thanks to @IchiiDev for the pull request)  
+Improved comment style for Haskell files (Thanks to @enzo-cesaretti for the pull request)  

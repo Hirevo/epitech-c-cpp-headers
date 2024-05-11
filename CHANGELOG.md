@@ -137,3 +137,10 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 
 - Added setting to toggle indentation of visibility specifiers in generated C++ class declarations.
 - Indentation in generated code now respects user's preferences instead of always using tabs.
+
+1.15.0
+------
+
+- Added support for Assembly files
+- Added support for HTML files, CSS files and JavaScript/TypeScript files (Thanks to @IchiiDev for the pull request)
+- Improved comment style for Haskell files (Thanks to @enzo-cesaretti for the pull request)

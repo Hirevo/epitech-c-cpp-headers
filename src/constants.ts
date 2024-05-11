@@ -1,20 +1,23 @@
-export const EOLS = ["", "\n", "\r\n"];
+import { SyntaxConstants } from "./types";
 
-export const SUPPORTED_LANGUAGES = {
-    c: "c",
-    h: "c",
-    cpp: "cpp",
-    hpp: "cpp",
-    tpp: "cpp",
-    ipp: "cpp",
-    cc: "cpp",
-    hh: "cpp",
-    C: "cpp",
-    H: "cpp",
-    cxx: "cpp",
-    hxx: "cpp",
-    "c++": "cpp",
-    "h++": "cpp",
+export const LINE_TERMINATORS = ["", "\n", "\r\n"];
+
+export const EXTENSION_TO_LANGUAGE = {
+    asm: "Assembly",
+    c: "C",
+    h: "C",
+    cpp: "C++",
+    hpp: "C++",
+    tpp: "C++",
+    ipp: "C++",
+    cc: "C++",
+    hh: "C++",
+    C: "C++",
+    H: "C++",
+    cxx: "C++",
+    hxx: "C++",
+    "c++": "C++",
+    "h++": "C++",
     go: "Go",
     Makefile: "Makefile",
     py: "Python",
@@ -31,9 +34,11 @@ export const SUPPORTED_LANGUAGES = {
     jsx: "JavaScript",
     tsx: "JavaScript",
     mjs: "JavaScript",
-};
+    html: "HTML",
+    css: "CSS",
+} as const;
 
-export const SYNTAX = {
+export const SYNTAX: SyntaxConstants = {
     pre2017: {
         headerMadeBy: "Made by ",
         headerLogin: "Login   ",
@@ -53,8 +58,9 @@ export const SYNTAX = {
         preProcessorStyle: "#",
     },
     commentStart: {
-        c: "/*",
-        cpp: "/*",
+        Assembly: ";;",
+        C: "/*",
+        "C++": "/*",
         Makefile: "##",
         Python: "##",
         Shell: "##",
@@ -66,10 +72,13 @@ export const SYNTAX = {
         Haskell: "{-",
         Go: "//",
         JavaScript: "/*",
+        HTML: "<!--",
+        CSS: "/*",
     },
     commentMid: {
-        c: "**",
-        cpp: "**",
+        Assembly: ";;",
+        C: "**",
+        "C++": "**",
         Makefile: "##",
         Python: "##",
         Shell: "##",
@@ -81,10 +90,13 @@ export const SYNTAX = {
         Haskell: "--",
         Go: "//",
         JavaScript: "**",
+        HTML: "----",
+        CSS: "**",
     },
     commentEnd: {
-        c: "*/",
-        cpp: "*/",
+        Assembly: ";;",
+        C: "*/",
+        "C++": "*/",
         Makefile: "##",
         Python: "##",
         Shell: "##",
@@ -96,6 +108,8 @@ export const SYNTAX = {
         Haskell: "-}",
         Go: "//",
         JavaScript: "*/",
+        HTML: "--->",
+        CSS: "*/",
     },
 };
 

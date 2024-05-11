@@ -1,69 +1,89 @@
 import * as os from "os";
 import * as vscode from "vscode";
-import { Config } from "./interfaces";
+import * as z from "zod";
 
-export async function configureSettings(config: vscode.WorkspaceConfiguration, force = false) {
+import { Config } from "./types";
+
+async function configureUsername(config: vscode.WorkspaceConfiguration, force: boolean) {
     if (config.username === null || force) {
         const resp = await vscode.window.showInputBox({ prompt: "Type EPITECH username: " });
         if (resp !== undefined) {
             config.update("username", resp, true);
         }
     }
+}
+
+async function configureLogin(config: vscode.WorkspaceConfiguration, force: boolean) {
     if (config.login === null || force) {
         const resp = await vscode.window.showInputBox({ prompt: "Type EPITECH login: " });
         if (resp !== undefined) {
             config.update("login", resp, true);
         }
     }
-    {
-        const resp = await vscode.window.showQuickPick(
-            ["Post 2017", "Pre 2017"],
-            { placeHolder: "Select the header format to use:" },
-        );
+}
+
+async function configureHeaderFormat(config: vscode.WorkspaceConfiguration) {
+    const resp = await vscode.window.showQuickPick(
+        ["Post 2017", "Pre 2017"],
+        { placeHolder: "Select the header format to use:" },
+    );
+    if (resp !== undefined) {
         config.update("headerType", resp.replace(/\s+/g, '').toLowerCase(), true);
     }
-    {
-        const resp = await vscode.window.showInformationMessage(
-            "Which header guard do you want to use ?",
-            "#ifndef/#endif",
-            "#pragma once",
-        );
-        if (resp !== undefined) {
-            config.update("usePragmaOnce", resp == "#pragma once", true);
-        }
+}
+
+async function configureHeaderGuardKind(config: vscode.WorkspaceConfiguration) {
+    const resp = await vscode.window.showInformationMessage(
+        "Which header guard do you want to use ?",
+        "#ifndef/#endif",
+        "#pragma once",
+    );
+    if (resp !== undefined) {
+        config.update("usePragmaOnce", resp == "#pragma once", true);
     }
-    {
-        const resp = await vscode.window.showInformationMessage(
-            "Do you want automatic C++ class generation ?",
+}
+
+async function configureClassGeneration(config: vscode.WorkspaceConfiguration) {
+    const resp = await vscode.window.showInformationMessage(
+        "Do you want automatic C++ class generation ?",
+        "Yes",
+        "No",
+    );
+    if (resp !== undefined) {
+        config.update("autoGenerateClasses", resp == "Yes", true);
+    }
+    if (resp == "Yes") {
+        const indentResp = await vscode.window.showInformationMessage(
+            "Do you want public, protected and private keywords to be indented ?",
             "Yes",
             "No",
         );
-        if (resp !== undefined) {
-            config.update("autoGenerateClasses", resp == "Yes", true);
-        }
-        if (resp == "Yes") {
-            const indentResp = await vscode.window.showInformationMessage(
-                "Do you want public, protected and private keywords to be indented ?",
-                "Yes",
-                "No",
-            );
-            if (indentResp !== undefined) {
-                config.update("indentAccessSpecifiers", indentResp == "Yes", true);
-            }
+        if (indentResp !== undefined) {
+            config.update("indentAccessSpecifiers", indentResp == "Yes", true);
         }
     }
+}
+
+export async function configureSettings(config: vscode.WorkspaceConfiguration, force = false) {
+    await configureUsername(config, force);
+    await configureLogin(config, force);
+    await configureHeaderFormat(config);
+    await configureHeaderGuardKind(config);
+    await configureClassGeneration(config);
     vscode.window.showInformationMessage("EPITECH headers have been successfully configured !");
 }
 
 export function loadConfig(): Config {
-    const config = {} as Config;
+    const handle = vscode.workspace.getConfiguration("epitech-c-cpp-headers");
 
-    config.handle = vscode.workspace.getConfiguration("epitech-c-cpp-headers");
-    config.username = (config.handle.username === null) ? os.userInfo().username : config.handle.username;
-    config.login = (config.handle.login === null) ? "" : config.handle.login;
-    config.headerType = config.handle.headerType || "post2017";
-    config.usePragmaOnce = config.handle.usePragmaOnce || false;
-    config.autoGenerateClasses = config.handle.autoGenerateClasses || true;
-    config.indentAccessSpecifiers = config.handle.indentAccessSpecifiers;
-    return config;
+    const config = z.object({
+        username: z.string().default(() => os.userInfo().username),
+        login: z.string().default(""),
+        headerType: z.enum(["pre2017", "post2017"]).default("post2017"),
+        usePragmaOnce: z.boolean().default(false),
+        autoGenerateClasses: z.boolean().default(true),
+        indentAccessSpecifiers: z.boolean().default(true),
+    }).parse(handle);
+
+    return { ...config, handle };
 }

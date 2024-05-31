@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import { FileInfo, isSupportedExtension } from "../types";
 import { EXTENSION_TO_LANGUAGE, LINE_TERMINATORS, SYNTAX } from "../constants";
 import { loadConfig } from "../config";
-import { GENERATORS, appendClass, appendConstructorDestructor, appendIfndef } from "../generators";
+import { GENERATORS, appendClass, appendConstructorDestructor, appendHaskellModule, appendIfndef } from "../generators";
 import { isUpper } from "../utils";
 
 // Asks the user about the project name to use, or defaults to using the current workspace's name.
@@ -120,6 +120,7 @@ export async function runAddHeader() {
 
     const config = loadConfig();
 
+    console.log(config);
     if (config.headerType == "post2017") {
         const description = await promptFileDescription(fileInfo);
         if (description === undefined) return;
@@ -131,7 +132,7 @@ export async function runAddHeader() {
     let offsetX = 0;
 
     const isEmptyHeaderFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^(?:h|hpp|H|hh|hxx)$/));
-    const isEmptySourceFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^(?:c|cpp|C|cc|cxx)$/));
+    const isEmptySourceFile = (fileInfo.document.getText() == '' && fileInfo.ext.match(/^(?:c|cpp|C|cc|cxx|hs|lhs)$/));
 
     if (isEmptyHeaderFile) {
         const baseName = path.basename(fileInfo.fileName);
@@ -154,10 +155,14 @@ export async function runAddHeader() {
         }
     }
 
+
     if (isEmptySourceFile) {
         const className = path.basename(fileInfo.fileName).slice(0, -(fileInfo.ext.length + 1));
         if (config.autoGenerateClasses && fileInfo.langId == "C++" && isUpper(className[0])) {
             editContent = appendConstructorDestructor(editContent, className, fileInfo);
+        }
+        if (config.autoGenerateModules && fileInfo.langId == "Haskell") {
+            editContent = appendHaskellModule(editContent,fileInfo);
         }
     }
 

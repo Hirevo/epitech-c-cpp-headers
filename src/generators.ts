@@ -98,3 +98,10 @@ export function appendConstructorDestructor(editContent: string, className: stri
     );
     return editContent;
 }
+
+export function appendHaskellModule(editContent: string, fileInfo: FileInfo): string {
+    return editContent.concat(
+        `module ${path.basename(fileInfo.fileName).slice(0, -(fileInfo.ext.length + 1))} () where`, fileInfo.eol,
+        fileInfo.eol,
+    );
+}

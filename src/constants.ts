@@ -20,6 +20,7 @@ export const EXTENSION_TO_LANGUAGE = {
     "h++": "C++",
     go: "Go",
     Makefile: "Makefile",
+    mk: "Makefile",
     py: "Python",
     sh: "Shell",
     tex: "LaTeX",

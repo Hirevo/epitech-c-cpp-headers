@@ -144,3 +144,8 @@ All notable changes to the "EPITECH C/C++ Headers" extension will be documented 
 - Added support for Assembly files
 - Added support for HTML files, CSS files and JavaScript/TypeScript files (Thanks to @IchiiDev for the pull request)
 - Improved comment style for Haskell files (Thanks to @enzo-cesaretti for the pull request)
+
+1.16.0
+------
+
+- Added support for Makefile `.mk` files (Thanks to @C0Florent for the pull request)

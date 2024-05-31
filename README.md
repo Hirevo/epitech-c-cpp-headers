@@ -157,3 +157,7 @@ Indentation in generated code now respects user's preferences instead of always 
 Added support for Assembly files  
 Added support for HTML files, CSS files and JavaScript/TypeScript files (Thanks to @IchiiDev for the pull request)  
 Improved comment style for Haskell files (Thanks to @enzo-cesaretti for the pull request)  
+
+### 1.16.0
+
+Added support for Makefile `.mk` files (Thanks to @C0Florent for the pull request)  

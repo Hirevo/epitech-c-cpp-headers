@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import { FileInfo, isSupportedExtension } from "../types";
 import { EXTENSION_TO_LANGUAGE, LINE_TERMINATORS, SYNTAX } from "../constants";
 import { loadConfig } from "../config";
-import { GENERATORS, appendClass, appendConstructorDestructor, appendIfndef } from "../generators";
+import { GENERATORS, appendClass, appendConstructorDestructor, appendHaskellModule, appendIfndef } from "../generators";
 import { isUpper } from "../utils";
 
 // Asks the user about the project name to use, or defaults to using the current workspace's name.
@@ -158,6 +158,9 @@ export async function runAddHeader() {
         const className = path.basename(fileInfo.fileName).slice(0, -(fileInfo.ext.length + 1));
         if (config.autoGenerateClasses && fileInfo.langId == "C++" && isUpper(className[0])) {
             editContent = appendConstructorDestructor(editContent, className, fileInfo);
+        }
+        if (config.autoGenerateModules && fileInfo.langId == "Haskell") {
+            editContent = appendHaskellModule(editContent,fileInfo);
         }
     }
 

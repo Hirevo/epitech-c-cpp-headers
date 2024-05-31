@@ -37,6 +37,7 @@ This extension uses the following configuration entries:
 - `epitech-c-cpp-headers.prompt`: Specify if the extension should prompt for unknown configuration fields (default: true)
 - `epitech-c-cpp-headers.usePragmaOnce`: Specifies if '#pragma once' should be used as header guard instead of '#ifndef ...' (default: false)
 - `epitech-c-cpp-headers.autoGenerateClasses`: Specifies if automatic C++ class generation is enabled (default: true)
+- `epitech-c-cpp-headers.autoGenerateModules`: Specifies if automatic Haskell module generation is enabled (default: true)
 
 Known Issues
 ------------

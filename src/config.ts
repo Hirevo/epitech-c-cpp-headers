@@ -64,12 +64,24 @@ async function configureClassGeneration(config: vscode.WorkspaceConfiguration) {
     }
 }
 
+async function configureModulesGeneration(config: vscode.WorkspaceConfiguration) {
+    const resp = await vscode.window.showInformationMessage(
+        "Do you want automatic Haskell module generation ?",
+        "Yes",
+        "No",
+    );
+    if (resp !== undefined) {
+        config.update("autoGenerateModules", resp == "Yes", true);
+    }
+}
+
 export async function configureSettings(config: vscode.WorkspaceConfiguration, force = false) {
     await configureUsername(config, force);
     await configureLogin(config, force);
     await configureHeaderFormat(config);
     await configureHeaderGuardKind(config);
     await configureClassGeneration(config);
+    await configureModulesGeneration(config);
     vscode.window.showInformationMessage("EPITECH headers have been successfully configured !");
 }
 
@@ -83,6 +95,7 @@ export function loadConfig(): Config {
         usePragmaOnce: z.boolean().default(false),
         autoGenerateClasses: z.boolean().default(true),
         indentAccessSpecifiers: z.boolean().default(true),
+        autoGenerateModules: z.boolean().default(true),
     }).parse(handle);
 
     return { ...config, handle };

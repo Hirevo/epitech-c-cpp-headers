@@ -50,6 +50,7 @@ This extension uses the following configuration entries:
 - `epitech-c-cpp-headers.prompt`: Specify if the extension should prompt for unknown configuration fields (default: true)
 - `epitech-c-cpp-headers.usePragmaOnce`: Specifies if '#pragma once' should be used as header guard instead of '#ifndef ...' (default: false)
 - `epitech-c-cpp-headers.autoGenerateClasses`: Specifies if automatic C++ class generation is enabled (default: true)
+- `epitech-c-cpp-headers.customHeader`: Specifies a custom header to use instead of the regular Epitech header (default: null)
 
 Known Issues
 ------------

@@ -101,7 +101,7 @@
                 "epitech-c-cpp-headers.customHeader": {
                     "type": "array",
                     "default": [],
-                    "description": "Specifies custom headers to add to the generated headers."
+                    "description": "Specifies a custom header to use instead of the regular Epitech header."
                 }
             }
         }

@@ -83,6 +83,7 @@ export function loadConfig(): Config {
         usePragmaOnce: z.boolean().default(false),
         autoGenerateClasses: z.boolean().default(true),
         indentAccessSpecifiers: z.boolean().default(true),
+        customHeader: z.array(z.string()).default([]),
     }).parse(handle);
 
     return { ...config, handle };

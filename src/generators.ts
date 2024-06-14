@@ -6,7 +6,8 @@ import { Config, FileInfo, HeaderGenerator as HeaderGenerators } from "./types";
 
 export const GENERATORS: HeaderGenerators = {
     pre2017: generatePre2017Header,
-    post2017: generatePost2017Header
+    post2017: generatePost2017Header,
+    custom: generateCustomHeader,
 };
 
 function generatePre2017Header(fileInfo: FileInfo, config: Config, date: Date): string {
@@ -37,6 +38,32 @@ function generatePost2017Header(fileInfo: FileInfo, _config: Config, date: Date)
         SYNTAX.commentMid[fileInfo.langId], " ", fileInfo.description as string, fileInfo.eol,
         SYNTAX.commentEnd[fileInfo.langId], fileInfo.eol, fileInfo.eol,
     );
+}
+
+function generateCustomHeader(fileInfo: FileInfo, config: Config): string {
+    const editContent = "";
+    return editContent.concat(
+        SYNTAX.commentStart[fileInfo.langId], fileInfo.eol,
+        config.customHeader.map((line) => SYNTAX.commentMid[fileInfo.langId] + " " + customArgs(fileInfo, line) + fileInfo.eol).join(""),
+        SYNTAX.commentEnd[fileInfo.langId], fileInfo.eol, fileInfo.eol,
+    );
+}
+
+// customArgs() replaces the placeholders in the custom header with the actual values.
+// It replaces:
+//     %FILENAME% with the name of the file.
+//     %PROJECTNAME% with the name of the project.
+//     %FILEPATH% with the path of the file.
+//     %DESCRIPTION% with the description of the file.
+// It returns the modified line.
+// To add a new placeholder, add a new line with the following format:
+//     line = line.replace(/%PLACEHOLDER%/g, newValue);
+function customArgs(fileInfo: FileInfo, line: string) {
+    line = line.replace(/%FILENAME%/g, path.basename(fileInfo.fileName));
+    line = line.replace(/%PROJECTNAME%/g, fileInfo.projName);
+    line = line.replace(/%FILEPATH%/g, path.dirname(fileInfo.fileName));
+    line = line.replace(/%DESCRIPTION%/g, fileInfo.description as string);
+    return line;
 }
 
 // getTabType() generates a tab string based on the user's editors settings.

@@ -107,7 +107,7 @@ export async function runAddHeader() {
 
     const extension = path.basename(fileInfo.fileName).split(".").reverse()[0];
     if (!isSupportedExtension(extension)) {
-        vscode.window.showErrorMessage("The currently opened file (" + extension + ") isn't a supported file.");
+        vscode.window.showErrorMessage(`The currently opened file (${extension}) isn't a supported file.`);
         return;
     }
 
@@ -126,7 +126,7 @@ export async function runAddHeader() {
         fileInfo.description = description;
     }
 
-    let editContent = GENERATORS[config.headerType](fileInfo, config, date);
+    let editContent = GENERATORS[(config.customHeader.length > 0) ? "custom" : config.headerType](fileInfo, config, date);
     let offsetY = SYNTAX[config.headerType].offsetHeaderFile;
     let offsetX = 0;
 

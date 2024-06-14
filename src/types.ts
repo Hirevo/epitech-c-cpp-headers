@@ -26,6 +26,7 @@ export type Config = {
     usePragmaOnce: boolean;
     autoGenerateClasses: boolean;
     indentAccessSpecifiers: boolean;
+    customHeader: string[];
 };
 
 export type HeaderGenerator = {

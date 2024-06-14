@@ -97,6 +97,11 @@
                     "type": "boolean",
                     "default": true,
                     "description": "Specifies if access specifiers indentation is enabled."
+                },
+                "epitech-c-cpp-headers.customHeader": {
+                    "type": "array",
+                    "default": [],
+                    "description": "Specifies a custom header to use instead of the regular Epitech header."
                 }
             }
         }

@@ -37,6 +37,7 @@ export const EXTENSION_TO_LANGUAGE = {
     mjs: "JavaScript",
     html: "HTML",
     css: "CSS",
+    sql: "SQL"
 } as const;
 
 export const SYNTAX: SyntaxConstants = {
@@ -75,6 +76,7 @@ export const SYNTAX: SyntaxConstants = {
         JavaScript: "/*",
         HTML: "<!--",
         CSS: "/*",
+        SQL: "/*",
     },
     commentMid: {
         Assembly: ";;",
@@ -93,6 +95,7 @@ export const SYNTAX: SyntaxConstants = {
         JavaScript: "**",
         HTML: "----",
         CSS: "**",
+        SQL: "**",
     },
     commentEnd: {
         Assembly: ";;",
@@ -111,6 +114,7 @@ export const SYNTAX: SyntaxConstants = {
         JavaScript: "*/",
         HTML: "--->",
         CSS: "*/",
+        SQL: "*/",
     },
 };
 
